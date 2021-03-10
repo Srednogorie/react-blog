@@ -1,11 +1,14 @@
 import logo from '../logo.png'
+import {Link} from "react-router-dom";
 
-export default function Navigation() {
+function Navigation() {
     return (
         <nav className="navbar custom-nav">
-            <div className="container pl-6 pr-6">
+            <div className="container px-6">
                 <div className="navbar-brand">
-                    <img src={logo} alt='logo' className="logo-styles mr-3"/>
+                    <Link to="/" className="logo-styles">
+                        <img src={logo} alt='logo' className="logo-styles mr-3"/>
+                    </Link>
                     <a className="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -14,14 +17,14 @@ export default function Navigation() {
                 </div>
                 <div className="navbar-menu">
                     <div className="navbar-start">
-                        <a className="navbar-item has-text-weight-semibold" href="#">Writers</a>
-                        <a className="navbar-item has-text-weight-semibold" href="#">About Us</a>
+                        <Link to="/writers" className="navbar-item has-text-weight-semibold nav-link">Writers</Link>
+                        <Link to="/about" className="navbar-item has-text-weight-semibold nav-link">About Us</Link>
                     </div>
                     <div className="navbar-end">
-                        <input className="input is-align-self-center is-size-7 mr-6 mt-2" type="text" placeholder="Find writers or stories"/>
+                        <input className="input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text" placeholder="Find writers or stories"/>
                         <div className="navbar-item">
                             <div className="buttons">
-                                <a className="has-text-weight-semibold sign-style" href="#">Sign in</a>
+                                <Link to="/sign" className="has-text-weight-semibold sign-style">Sign in</Link>
                             </div>
                         </div>
                     </div>
@@ -30,3 +33,5 @@ export default function Navigation() {
         </nav>
     );
 }
+
+export default Navigation;
