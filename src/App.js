@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import WritersPage from "./pages/WritersPage";
 import AboutPage from "./pages/AboutPage";
 import SignPage from "./pages/SignPage";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
                       <Route path="/writers" exact component={WritersPage} />
                       <Route path="/about" exact component={AboutPage} />
                       <Route path="/sign" exact component={SignPage} />
+                      <Route path="/register" exact component={Register} />
                   </div>
               </Switch>
               <Footer />
