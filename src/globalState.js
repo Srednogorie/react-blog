@@ -4,6 +4,10 @@ import React, {createContext, useReducer, useContext} from "react";
 const GlobalStateContext = createContext();
 
 const initialState = {
+    // Manage
+    manage: {
+      isAuthenticated: false,
+    },
     // Login
     login: {
         email: '',
@@ -15,11 +19,6 @@ const initialState = {
     },
     // Signin
     signup: {
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        country: '',
-        username: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -48,6 +47,9 @@ const initialState = {
 
 const globalStateReducer = (state, action) => {
     switch (action.type) {
+        // Manage
+        case "IS_AUTHENTICATED":
+            return {...state, manage: {...state.manage, isAuthenticated: action.payload}};
         // Login
         case "EMAIL":
             return {...state, login: {...state.login, email: action.payload}};
@@ -62,14 +64,6 @@ const globalStateReducer = (state, action) => {
         case "PRD_TEXTFIELD":
             return {...state, login: {...state.login, prd_textfield: action.payload}};
         // Signup
-        case "FIRST_NAME":
-            return {...state, signup: {...state.signup, firstName: action.payload}};
-        case "LAST_NAME":
-            return {...state, signup: {...state.signup, lastName: action.payload}};
-        case "PHONE_NUMBER":
-            return {...state, signup: {...state.signup, phoneNumber: action.payload}};
-        case "COUNTRY":
-            return {...state, signup: {...state.signup, country: action.payload}};
         case "USERNAME":
             return {...state, signup: {...state.signup, username: action.payload}};
         case "SIGNUP_EMAIL":
@@ -138,6 +132,13 @@ This also allows us to keep all of this state logic in this one file
 
 const useGlobalState = () => {
     const [state, dispatch] = useContext(GlobalStateContext);
+
+    const setManage = (action) => {
+        switch (action.type) {
+            case "is_authenticated":
+                return dispatch({type: "IS_AUTHENTICATED", payload: action.payload});
+        }
+    }
 
     const setLogin = (action) => {
         switch (action.type) {
@@ -226,6 +227,7 @@ const useGlobalState = () => {
     };
 
     return {
+        setManage,
         setLogin,
         setSignup,
         setHome,

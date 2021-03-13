@@ -1,7 +1,9 @@
 import logo from '../logo.png'
 import {Link} from "react-router-dom";
+import useGlobalState from "../globalState";
 
 function Navigation() {
+    const g = useGlobalState();
     return (
         <nav className="navbar custom-nav">
             <div className="container px-6">
@@ -22,11 +24,13 @@ function Navigation() {
                     </div>
                     <div className="navbar-end">
                         <input className="input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text" placeholder="Find writers or stories"/>
+                        {!g.s.manage.isAuthenticated &&
                         <div className="navbar-item">
                             <div className="buttons">
                                 <Link to="/sign" className="has-text-weight-semibold sign-style">Sign in</Link>
                             </div>
                         </div>
+                        }
                     </div>
                 </div>
             </div>
