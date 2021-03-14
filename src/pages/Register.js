@@ -81,7 +81,7 @@ function Register() {
                     </div>
                     <div className="sign-buttons">
                         <button className="sign-submit" type="submit">Register</button>
-                        <span className="sign-span">or <Link to="/sign" className="sign-login-option">login</Link></span>
+                        <span className="sign-span"><Link to="/sign" className="sign-login-option">or login</Link></span>
                     </div>
                 </form>
             </div>

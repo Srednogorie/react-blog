@@ -67,7 +67,7 @@ function SignPage() {
                     </div>
                     <div className="sign-buttons">
                         <button className="sign-submit" type="submit" >Login</button>
-                        <span className="sign-span">or <Link to="/register" className="sign-login-option">register</Link></span>
+                        <span className="sign-span"><Link to="/register" className="sign-login-option">or register</Link></span>
                     </div>
                 </form>
             </div>

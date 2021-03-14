@@ -20,7 +20,7 @@ function Navigation() {
     }
     return (
         <nav className="navbar custom-nav">
-            <div className="container px-6">
+            <div className="container px-6 is-relative">
                 <div className="navbar-brand">
                     <Link to="/" className="logo-styles">
                         <img src={logo} alt='logo' className="logo-styles mr-3"/>
@@ -31,13 +31,13 @@ function Navigation() {
                         <span aria-hidden="true"></span>
                     </a>
                 </div>
-                <div className={`navbar-menu ${g.s.manage.toggleMenu ? 'is-active' : ''}`}>
+                <div className={`navbar-menu ${g.s.manage.toggleMenu ? 'is-active is-active-panel' : ''}`}>
                     <div className="navbar-start">
                         {g.s.manage.isAuthenticated && <Link to="/writers" className="navbar-item has-text-weight-semibold nav-link">Writers</Link>}
                         <Link to="/about" className="navbar-item has-text-weight-semibold nav-link">About Us</Link>
                     </div>
                     <div className="navbar-end">
-                        <input className="input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text" placeholder="Find writers or stories"/>
+                        <input className={`input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text ${g.s.manage.toggleMenu ? 'is-active-search' : ''}`} placeholder="Find writers or stories"/>
                         <div className="navbar-item">
                             <div className="buttons">
                                 {
