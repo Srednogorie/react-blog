@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import useGlobalState from "../globalState";
 import firebase from '../firebase';
 import {useFormik} from "formik";
+import {useEffect} from "react";
 
 function Register() {
     const g =   useGlobalState();
@@ -21,7 +22,7 @@ function Register() {
                 .then((userCredential) => {
                     // Signed in
                     const user = userCredential.user;
-                    console.log(user);
+                    formik.resetForm();
                 })
                 .catch((error) => {
                     // const errorCode = error.code;
@@ -54,6 +55,11 @@ function Register() {
             return errors;
         },
     });
+    useEffect(() => {
+        return () => {
+            g.setSignup({type: "errors", payload: {"message": ""}});
+        };
+    }, [])
     return (
         <div className="container mx-6 my-6">
             <div className="sign-wrapper">
@@ -70,7 +76,9 @@ function Register() {
                         <input onChange={formik.handleChange} value={formik.values.confirmPassword} onClick={e => {formik.setErrors({"confirmPassword": ""})}} type="password" name="confirmPassword" placeholder="Your Password Again" />
                         {formik.touched.confirmPassword && formik.errors.confirmPassword ? <span className="errorMessage">{formik.errors.confirmPassword}</span> : null}
                     </div>
-                    {g.s.signup.errors["message"] && <span className="errorMessage">{g.s.signup.errors["message"]}</span>}
+                    <div className="errorMessage">
+                        {g.s.signup.errors["message"] && <span>{g.s.signup.errors["message"]}</span>}
+                    </div>
                     <div className="sign-buttons">
                         <button className="sign-submit" type="submit">Register</button>
                         <span className="sign-span">or <Link to="/sign" className="sign-login-option">login</Link></span>

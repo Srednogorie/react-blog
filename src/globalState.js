@@ -7,15 +7,12 @@ const initialState = {
     // Manage
     manage: {
       isAuthenticated: false,
+      toggleMenu: false,
     },
     // Login
     login: {
-        email: '',
-        password: '',
         errors: {},
         loading: false,
-        pass_reset_dialog: false,
-        prd_textfield: ''
     },
     // Signin
     signup: {
@@ -47,6 +44,8 @@ const globalStateReducer = (state, action) => {
         // Manage
         case "IS_AUTHENTICATED":
             return {...state, manage: {...state.manage, isAuthenticated: action.payload}};
+        case "TOGGLE_MENU":
+            return {...state, manage: {...state.manage, toggleMenu: action.payload}};
         // Login
         case "EMAIL":
             return {...state, login: {...state.login, email: action.payload}};
@@ -134,6 +133,8 @@ const useGlobalState = () => {
         switch (action.type) {
             case "is_authenticated":
                 return dispatch({type: "IS_AUTHENTICATED", payload: action.payload});
+            case "toggle_menu":
+                return dispatch({type: "TOGGLE_MENU", payload: action.payload});
         }
     }
 

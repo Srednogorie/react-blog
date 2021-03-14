@@ -10,6 +10,7 @@ import SignPage from "./pages/SignPage";
 import Register from "./pages/Register";
 import firebase from "firebase";
 import useGlobalState from "./globalState";
+import RouteAuthenticated from "./protectedRoute";
 
 function App() {
     const g =   useGlobalState();
@@ -22,7 +23,6 @@ function App() {
                 g.setManage({type: "is_authenticated", payload: false});
             }
         });
-        console.log(g.s.manage.isAuthenticated);
     }, []);
     return (
         <div className="page-wrapper">
@@ -30,7 +30,7 @@ function App() {
                 <div className="content-wrapper">
                     <Switch>
                         <Route path="/" exact component={HomePage} />
-                        <Route path="/writers" exact component={WritersPage} />
+                        <RouteAuthenticated path="/writers" exact component={WritersPage} />}
                         <Route path="/about" exact component={AboutPage} />
                         <Route path="/sign" exact component={SignPage}/>
                         <Route path="/register" exact component={Register} />

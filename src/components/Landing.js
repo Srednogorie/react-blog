@@ -3,7 +3,7 @@ function Landing() {
         <div className="container px-6 landing-main">
             <div className="landing-pub">
                 <div>
-                    <h2 className="landing-pub-header">Publications</h2>
+                    <h2 className="landing-pub-header">Last Publication</h2>
                 </div>
                 <div className="landing-pub-pub">
                     <a className="landing-publication" href="#">

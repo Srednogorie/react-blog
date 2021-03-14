@@ -1,9 +1,23 @@
 import logo from '../logo.png'
 import {Link} from "react-router-dom";
 import useGlobalState from "../globalState";
+import firebase from "../firebase";
+import { useHistory } from "react-router-dom";
 
 function Navigation() {
     const g = useGlobalState();
+    let history = useHistory();
+    const handleLogout = (event) => {
+        firebase.auth().signOut().then(() => {
+            // Sign-out successful. Redirect to home.
+            history.push("/");
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+    const handleToggle = (event) => {
+        g.setManage({type: "toggle_menu", payload: !g.s.manage.toggleMenu})
+    }
     return (
         <nav className="navbar custom-nav">
             <div className="container px-6">
@@ -11,26 +25,28 @@ function Navigation() {
                     <Link to="/" className="logo-styles">
                         <img src={logo} alt='logo' className="logo-styles mr-3"/>
                     </Link>
-                    <a className="navbar-burger" role="button" aria-label="menu" aria-expanded="false">
+                    <a className={`navbar-burger ${g.s.manage.toggleMenu ? 'is-active' : ''}`} role="button" aria-label="menu" aria-expanded="false" onClick={handleToggle}>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                     </a>
                 </div>
-                <div className="navbar-menu">
+                <div className={`navbar-menu ${g.s.manage.toggleMenu ? 'is-active' : ''}`}>
                     <div className="navbar-start">
-                        <Link to="/writers" className="navbar-item has-text-weight-semibold nav-link">Writers</Link>
+                        {g.s.manage.isAuthenticated && <Link to="/writers" className="navbar-item has-text-weight-semibold nav-link">Writers</Link>}
                         <Link to="/about" className="navbar-item has-text-weight-semibold nav-link">About Us</Link>
                     </div>
                     <div className="navbar-end">
                         <input className="input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text" placeholder="Find writers or stories"/>
-                        {!g.s.manage.isAuthenticated &&
                         <div className="navbar-item">
                             <div className="buttons">
-                                <Link to="/sign" className="has-text-weight-semibold sign-style">Sign in</Link>
+                                {
+                                    g.s.manage.isAuthenticated ?
+                                        <Link to="#" onClick={handleLogout} className="has-text-weight-semibold sign-style">Sign out</Link> :
+                                        <Link to="/sign" className="has-text-weight-semibold sign-style">Sign in</Link>
+                                }
                             </div>
                         </div>
-                        }
                     </div>
                 </div>
             </div>
