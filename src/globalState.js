@@ -19,9 +19,6 @@ const initialState = {
     },
     // Signin
     signup: {
-        email: '',
-        password: '',
-        confirmPassword: '',
         errors: {},
         loading: false
     },
