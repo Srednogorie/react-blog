@@ -1,11 +1,12 @@
-import {Link} from "react-router-dom";
+import {Link, useHistory, withRouter} from "react-router-dom";
 import useGlobalState from "../globalState";
 import {useFormik} from "formik";
 import firebase from "../firebase";
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 function SignPage() {
     const g =   useGlobalState();
+    const history = useHistory();
     const formik = useFormik({
         validateOnChange: false,
         validateOnBlur: false,
@@ -15,6 +16,7 @@ function SignPage() {
         },
         onSubmit(values) {
             g.setLogin({type: "errors", payload: {"message": ""}});
+            g.setManage({type: "is_authenticated", payload: null});
             const email = values.email;
             const password = values.password;
             firebase.auth().signInWithEmailAndPassword(email, password)
@@ -22,7 +24,8 @@ function SignPage() {
                     // Signed in
                     const user = userCredential.user;
                     formik.resetForm();
-                    console.log(user);
+                    g.setManage({type: "is_authenticated", payload: true});
+                    history.push("/");
                 })
                 .catch((error) => {
                     // const errorCode = error.code;
@@ -51,7 +54,7 @@ function SignPage() {
         };
     }, [])
     return (
-        <div className="container mx-6 my-6">
+        <div className="container">
             <div className="sign-wrapper">
                 <form className="sign-form" onSubmit={formik.handleSubmit}>
                     <div className="sign-fancy-input">
@@ -75,4 +78,4 @@ function SignPage() {
     )
 }
 
-export default SignPage;
+export default withRouter(SignPage);

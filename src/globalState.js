@@ -6,7 +6,7 @@ const GlobalStateContext = createContext();
 const initialState = {
     // Manage
     manage: {
-      isAuthenticated: false,
+      isAuthenticated: null,
       toggleMenu: false,
     },
     // Login
