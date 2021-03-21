@@ -4,6 +4,14 @@ import React, {createContext, useReducer, useContext} from "react";
 const GlobalStateContext = createContext();
 
 const initialState = {
+    // Article
+    article: {
+      modalIsOpen: false,
+      categories: [],
+      activeCategory: 0,
+      nonAuthArticles: [],
+      nonAuthArticlesCurrent: null,
+    },
     // Manage
     manage: {
       isAuthenticated: null,
@@ -41,6 +49,17 @@ const initialState = {
 
 const globalStateReducer = (state, action) => {
     switch (action.type) {
+        // Article
+        case "MODAL_IS_OPEN":
+            return {...state, article: {...state.article, modalIsOpen: action.payload}};
+        case "CATEGORIES":
+            return {...state, article: {...state.article, categories: action.payload}};
+        case "ACTIVE_CATEGORY":
+            return {...state, article: {...state.article, activeCategory: action.payload}};
+        case "NON_AUTH_ARTICLES":
+            return {...state, article: {...state.article, nonAuthArticles: action.payload}};
+        case "NON_AUTH_ARTICLES_CURRENT":
+            return {...state, article: {...state.article, nonAuthArticlesCurrent: action.payload}};
         // Manage
         case "IS_AUTHENTICATED":
             return {...state, manage: {...state.manage, isAuthenticated: action.payload}};
@@ -128,6 +147,21 @@ This also allows us to keep all of this state logic in this one file
 
 const useGlobalState = () => {
     const [state, dispatch] = useContext(GlobalStateContext);
+
+    const setArticle = (action) => {
+        switch (action.type) {
+            case "modal_is_open":
+                return dispatch({type: "MODAL_IS_OPEN", payload: action.payload});
+            case "categories":
+                return dispatch({type: "CATEGORIES", payload: action.payload});
+            case "active_category":
+                return dispatch({type: "ACTIVE_CATEGORY", payload: action.payload});
+            case "non_auth_articles":
+                return dispatch({type: "NON_AUTH_ARTICLES", payload: action.payload});
+            case "non_auth_articles_current":
+                return dispatch({type: "NON_AUTH_ARTICLES_CURRENT", payload: action.payload});
+        }
+    }
 
     const setManage = (action) => {
         switch (action.type) {
@@ -225,6 +259,7 @@ const useGlobalState = () => {
     };
 
     return {
+        setArticle,
         setManage,
         setLogin,
         setSignup,
