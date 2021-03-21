@@ -1,5 +1,6 @@
 @charset "utf-8"
 @import '~bulma/bulma.sass'
+@import '~bulma-timeline'
 @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@200&display=swap')
 @import url('http://fonts.cdnfonts.com/css/sf-compact-display')
 @import "~react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -49,6 +50,24 @@ body
   top: 50%
   left: 50%
   transform: translate(-50%, -50%)
+
+
+// Customise the timeline
+.timeline.is-centered .timeline-item.is-primary::before
+  background-color: #fd6851
+.timeline .timeline-item .timeline-marker.is-primary
+  background-color: #fd6851 !important
+  border-color: #fd6851 !important
+.timeline .timeline-item .timeline-content
+  padding: 1em 0 0 4em
+.timeline .timeline-item
+  padding-bottom: 4em
+.timeline.is-centered .timeline-item:nth-of-type(2n) .timeline-content
+  padding: 1em 4em 0 0
+.timeline-image
+  width: 100%
+  height: 100%
+
 
 
 // Style header component
@@ -105,6 +124,8 @@ body
   border-color: #d8d8d8
   font-weight: bold
   cursor: pointer
+.cat-button:focus
+  outline: none
 .cat-button.active
   background-color: #58504b
   border-color: #58504b
@@ -124,8 +145,7 @@ body
   flex-shrink: 0
   min-width: 0
   max-width: none
-  width: 64px
-  height: 64px
+  width: 80px
   margin-right: 20px
 .landing-publication-title
   font-size: 20px
