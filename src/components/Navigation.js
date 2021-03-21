@@ -37,7 +37,7 @@ function Navigation() {
                         <Link to="/about" className="navbar-item has-text-weight-semibold nav-link">About Us</Link>
                     </div>
                     <div className="navbar-end">
-                        <input className={`input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text ${g.s.manage.toggleMenu ? 'is-active-search' : ''}`} placeholder="Find writers or stories"/>
+                        {g.s.manage.isAuthenticated && <input className={`input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text ${g.s.manage.toggleMenu ? 'is-active-search' : ''}`} placeholder="Find writers or stories"/>}
                         <div className="navbar-item">
                             <div className="buttons">
                                 {
