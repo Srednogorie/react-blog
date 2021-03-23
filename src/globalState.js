@@ -11,6 +11,8 @@ const initialState = {
       activeCategory: 0,
       nonAuthArticles: [],
       nonAuthArticlesCurrent: null,
+      authArticles: [],
+      authArticlesCurrent: null,
     },
     // Manage
     manage: {
@@ -60,6 +62,10 @@ const globalStateReducer = (state, action) => {
             return {...state, article: {...state.article, nonAuthArticles: action.payload}};
         case "NON_AUTH_ARTICLES_CURRENT":
             return {...state, article: {...state.article, nonAuthArticlesCurrent: action.payload}};
+        case "AUTH_ARTICLES":
+            return {...state, article: {...state.article, authArticles: action.payload}};
+        case "AUTH_ARTICLES_CURRENT":
+            return {...state, article: {...state.article, authArticlesCurrent: action.payload}};
         // Manage
         case "IS_AUTHENTICATED":
             return {...state, manage: {...state.manage, isAuthenticated: action.payload}};
@@ -160,6 +166,12 @@ const useGlobalState = () => {
                 return dispatch({type: "NON_AUTH_ARTICLES", payload: action.payload});
             case "non_auth_articles_current":
                 return dispatch({type: "NON_AUTH_ARTICLES_CURRENT", payload: action.payload});
+            case "auth_articles":
+                return dispatch({type: "AUTH_ARTICLES", payload: action.payload});
+            case "auth_articles_current":
+                return dispatch({type: "AUTH_ARTICLES_CURRENT", payload: action.payload});
+            default:
+                return "Some mismatch is getting over - Article!";
         }
     }
 
@@ -169,6 +181,8 @@ const useGlobalState = () => {
                 return dispatch({type: "IS_AUTHENTICATED", payload: action.payload});
             case "toggle_menu":
                 return dispatch({type: "TOGGLE_MENU", payload: action.payload});
+            default:
+                return "Some mismatch is getting over - Manage!";
         }
     }
 
@@ -179,15 +193,15 @@ const useGlobalState = () => {
             case "password":
                 return dispatch({type: "PASSWORD", payload: action.payload});
             case "login_loading":
-                return dispatch({type: "LOGIN_LOADING", payload: action.payload})
+                return dispatch({type: "LOGIN_LOADING", payload: action.payload});
             case "errors":
-                return dispatch({type: "ERRORS", payload: action.payload})
+                return dispatch({type: "ERRORS", payload: action.payload});
             case "pass_reset_dialog":
-                return dispatch({type: "PASS_RESET_DIALOG", payload: action.payload})
+                return dispatch({type: "PASS_RESET_DIALOG", payload: action.payload});
             case "prd_textfield":
-                return dispatch({type: "PRD_TEXTFIELD", payload: action.payload})
+                return dispatch({type: "PRD_TEXTFIELD", payload: action.payload});
             default:
-                return "Some mismatch is getting over - LogIn!"
+                return "Some mismatch is getting over - LogIn!";
         }
     };
 
@@ -198,23 +212,23 @@ const useGlobalState = () => {
             case "lastName":
                 return dispatch({type: "LAST_NAME", payload: action.payload});
             case "phoneNumber":
-                return dispatch({type: "PHONE_NUMBER", payload: action.payload})
+                return dispatch({type: "PHONE_NUMBER", payload: action.payload});
             case "country":
-                return dispatch({type: "COUNTRY", payload: action.payload})
+                return dispatch({type: "COUNTRY", payload: action.payload});
             case "username":
-                return dispatch({type: "USERNAME", payload: action.payload})
+                return dispatch({type: "USERNAME", payload: action.payload});
             case "email":
-                return dispatch({type: "SIGNUP_EMAIL", payload: action.payload})
+                return dispatch({type: "SIGNUP_EMAIL", payload: action.payload});
             case "password":
-                return dispatch({type: "SIGNUP_PASSWORD", payload: action.payload})
+                return dispatch({type: "SIGNUP_PASSWORD", payload: action.payload});
             case "confirmPassword":
-                return dispatch({type: "CONFIRM_PASSWORD", payload: action.payload})
+                return dispatch({type: "CONFIRM_PASSWORD", payload: action.payload});
             case "errors":
-                return dispatch({type: "SIGNUP_ERRORS", payload: action.payload})
+                return dispatch({type: "SIGNUP_ERRORS", payload: action.payload});
             case "loading":
-                return dispatch({type: "LOADING", payload: action.payload})
+                return dispatch({type: "LOADING", payload: action.payload});
             default:
-                return "Some mismatch is getting over - SignUp!"
+                return "Some mismatch is getting over - SignUp!";
         }
     };
 
@@ -225,11 +239,11 @@ const useGlobalState = () => {
             case "profilePicture":
                 return dispatch({type: "PROFILE_PICTURE", payload: action.payload});
             case "uiLoading":
-                return dispatch({type: "UI_LOADING", payload: action.payload})
+                return dispatch({type: "UI_LOADING", payload: action.payload});
             case "imageLoading":
-                return dispatch({type: "IMAGE_LOADING", payload: action.payload})
+                return dispatch({type: "IMAGE_LOADING", payload: action.payload});
             default:
-                return "Some mismatch is getting over - Home!"
+                return "Some mismatch is getting over - Home!";
         }
     };
 
@@ -240,21 +254,21 @@ const useGlobalState = () => {
             case "lastName":
                 return dispatch({type: "ACCOUNT_LAST_NAME", payload: action.payload});
             case "email":
-                return dispatch({type: "ACCOUNT_EMAIL", payload: action.payload})
+                return dispatch({type: "ACCOUNT_EMAIL", payload: action.payload});
             case "phoneNumber":
-                return dispatch({type: "ACCOUNT_PHONE_NUMBER", payload: action.payload})
+                return dispatch({type: "ACCOUNT_PHONE_NUMBER", payload: action.payload});
             case "username":
-                return dispatch({type: "ACCOUNT_USERNAME", payload: action.payload})
+                return dispatch({type: "ACCOUNT_USERNAME", payload: action.payload});
             case "country":
-                return dispatch({type: "ACCOUNT_COUNTRY", payload: action.payload})
+                return dispatch({type: "ACCOUNT_COUNTRY", payload: action.payload});
             case "profilePicture":
-                return dispatch({type: "ACCOUNT_PROFILE_PICTURE", payload: action.payload})
+                return dispatch({type: "ACCOUNT_PROFILE_PICTURE", payload: action.payload});
             case "buttonLoading":
-                return dispatch({type: "BUTTON_LOADING", payload: action.payload})
+                return dispatch({type: "BUTTON_LOADING", payload: action.payload});
             case "imageError":
-                return dispatch({type: "IMAGE_ERROR", payload: action.payload})
+                return dispatch({type: "IMAGE_ERROR", payload: action.payload});
             default:
-                return "Some mismatch is getting over - Home!"
+                return "Some mismatch is getting over - Account!";
         }
     };
 
