@@ -1,8 +1,9 @@
 import Header from "../components/Header";
 import Landing from "../components/Landing";
 import useGlobalState from "../globalState";
-import React from 'react';
+import React, {Fragment} from 'react';
 import firebase from "../firebase";
+import AuthLanding from "../components/AuthLanding";
 
 function HomePage() {
     const g = useGlobalState();
@@ -11,21 +12,40 @@ function HomePage() {
     React.useEffect(() => {
         const categories = g.s.article.categories;
         let unauthenticatedArticles = [];
-        categories.forEach((category) => {
-            // Get articles for unauthenticated users based on available categories
-            articlesRef.where("category", "==", category).orderBy("created", "desc").limit(1).get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        let docData = doc.data();
-                        docData['key'] = doc.id;
-                        unauthenticatedArticles.push(docData);
+        let authenticatedArticles = [];
+        if (g.s.manage.isAuthenticated) {
+            categories.forEach((category) => {
+                // Get articles for unauthenticated users based on available categories
+                articlesRef.where("category", "==", category).orderBy("created", "desc").limit(5).get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            let docData = doc.data();
+                            docData['key'] = doc.id;
+                            authenticatedArticles.push(docData);
+                        });
+                        g.setArticle({type: "auth_articles", payload: authenticatedArticles});
+                    })
+                    .catch((error) => {
+                        console.log("Error getting documents: ", error);
                     });
-                    g.setArticle({type: "non_auth_articles", payload: unauthenticatedArticles});
-                })
-                .catch((error) => {
-                    console.log("Error getting documents: ", error);
-                });
-        })
+            })
+        } else {
+            categories.forEach((category) => {
+                // Get articles for unauthenticated users based on available categories
+                articlesRef.where("category", "==", category).orderBy("created", "desc").limit(1).get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            let docData = doc.data();
+                            docData['key'] = doc.id;
+                            unauthenticatedArticles.push(docData);
+                        });
+                        g.setArticle({type: "non_auth_articles", payload: unauthenticatedArticles});
+                    })
+                    .catch((error) => {
+                        console.log("Error getting documents: ", error);
+                    });
+            })
+        }
     }, [])
     React.useEffect(() => {
         // Set the current article
@@ -39,8 +59,14 @@ function HomePage() {
     }, [g.s.article.nonAuthArticles])
     return (
         <div>
-            {!g.s.manage.isAuthenticated && <Header />}
-            <Landing />
+            {g.s.manage.isAuthenticated ?
+                <AuthLanding/>
+                :
+                <Fragment>
+                    <Header/>
+                    <Landing/>
+                </Fragment>
+            }
         </div>
     )
 }

@@ -1,36 +1,37 @@
+import useGlobalState from "../globalState";
+import {Fragment, useEffect} from 'react';
+import Categories from "./Categories";
+import {formatTime} from "../utils";
 function AuthLanding() {
-    return (
-        <div className="timeline is-centered">
-            <div className="timeline-item is-primary">
-                <div className="timeline-marker is-primary is-image is-64x64">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/mysoftexam.appspot.com/o/article_images%2Fculture_one.jpeg?alt=media&token=2f2c1345-52ca-4509-a303-0cb729564e2c"/>
-                </div>
-                <div className="timeline-content">
-                    <p className="heading">January 2016</p>
-                    <p>Timeline content - Can include any HTML element</p>
-                </div>
-            </div>
-            <div className="timeline-item is-primary">
-                <div className="timeline-marker is-primary is-image is-64x64">
-                    <img className="timeline-image" src="https://firebasestorage.googleapis.com/v0/b/mysoftexam.appspot.com/o/article_images%2Fmusic_one.jpeg?alt=media&token=f920cc6b-b1e6-42cb-9628-a349205e4b68"/>
-                </div>
-                <div className="timeline-content">
-                    <p className="heading">January 2016</p>
-                    <p>Timeline content - Can include any HTML element</p>
-                </div>
-            </div>
-            <div className="timeline-item is-primary">
-                <div className="timeline-marker is-primary is-image is-64x64">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/mysoftexam.appspot.com/o/article_images%2Fculture_one.jpeg?alt=media&token=2f2c1345-52ca-4509-a303-0cb729564e2c"/>
-                </div>
-                <div className="timeline-content">
-                    <p className="heading">January 2016</p>
-                    <p>Timeline content - Can include any HTML element</p>
-                </div>
-            </div>
-        </div>
+    const g =   useGlobalState();
 
+    useEffect(() => {
+        const currentCategory = g.s.article.categories[g.s.article.activeCategory];
+        const currentArticles = g.s.article.authArticles;
+        const currentCategoryArticles = currentArticles.filter(obj => obj.category === currentCategory);
+        g.setArticle({type: "auth_articles_current", payload: currentCategoryArticles});
+    }, [g.s.article.authArticles, g.s.article.activeCategory])
+    return (
+        <div className="container px-6 landing-main">
+            <div className="timeline is-centered">
+                {g.s.article.authArticlesCurrent && g.s.article.authArticlesCurrent.map((article, index) => (
+                    <div className="timeline-item is-primary" key={article.key}>
+                        <div className="timeline-marker is-primary is-image is-64x64 test-image" style={{backgroundImage: `url(${article.image_url})`}}>
+                        </div>
+                        <div className="timeline-content">
+                            <p className="heading">{article.created.toDate().toLocaleDateString('en-UK')}</p>
+                            <p>{article.title}</p>
+                            <div className="manage-buttons">
+                                <button className="manage-buttons-btn">Edit</button>
+                                <button className="manage-buttons-btn">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <Categories/>
+        </div>
     )
-}
+};
 
 export default AuthLanding;
