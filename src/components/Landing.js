@@ -3,12 +3,20 @@ import {Link} from "react-router-dom";
 import React from "react";
 import {truncate} from "../utils";
 import Categories from "./Categories";
+import {useEffect} from "react";
 
 function Landing() {
     const g = useGlobalState();
     const showArticle = (event) => {
-        g.setArticle({type: "modal_is_open", payload: true});
+        g.setModal({type: "modal_is_open", payload: true});
+        g.setModal({type: "modal_content", payload: "article"});
     }
+
+    useEffect(() => {
+        return (
+            g.setModal({type: "modal_is_open", payload: null})
+        )
+    }, [])
 
     return (
         <div className="container px-6 landing-main">

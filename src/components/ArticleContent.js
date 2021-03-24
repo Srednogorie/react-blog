@@ -4,7 +4,7 @@ import React from "react";
 
 function ArticleContent() {
     const g = useGlobalState();
-    ArticleContent.handleClickOutside = () => g.setArticle({type: "modal_is_open", payload: false});
+    ArticleContent.handleClickOutside = () => g.setModal({type: "modal_is_open", payload: false});
 
     return (
         <div className="modal-card">
