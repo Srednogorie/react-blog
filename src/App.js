@@ -14,6 +14,7 @@ import RouteAuthenticated from "./protectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import Loading from "./components/Loading";
 import Article from "./components/Article";
+import Modal from "./components/Article";
 
 function App() {
     const g =   useGlobalState();
@@ -51,7 +52,7 @@ function App() {
         <div className="page-wrapper">
             {g.s.manage.isAuthenticated === null ? <Loading /> :
                 <Fragment>
-                    {g.s.article.modalIsOpen && <Article />}
+                    {g.s.modal.modalIsOpen && <Modal />}
                     <Navigation />
                         <div className="content-wrapper">
                             <Switch>
