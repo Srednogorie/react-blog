@@ -1,7 +1,6 @@
 import useGlobalState from "../globalState";
 import {useEffect} from 'react';
 import Categories from "./Categories";
-import 'font-awesome/css/font-awesome.min.css';
 function AuthLanding() {
     const g =   useGlobalState();
 

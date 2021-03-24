@@ -13,8 +13,8 @@ import useGlobalState from "./globalState";
 import RouteAuthenticated from "./protectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import Loading from "./components/Loading";
-import Article from "./components/Article";
-import Modal from "./components/Article";
+import Article from "./components/Modal";
+import Modal from "./components/Modal";
 
 function App() {
     const g =   useGlobalState();
