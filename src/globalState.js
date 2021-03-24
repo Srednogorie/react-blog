@@ -6,13 +6,17 @@ const GlobalStateContext = createContext();
 const initialState = {
     // Article
     article: {
-      modalIsOpen: false,
       categories: [],
       activeCategory: 0,
       nonAuthArticles: [],
       nonAuthArticlesCurrent: null,
       authArticles: [],
       authArticlesCurrent: null,
+    },
+    // Modal management
+    modal: {
+        modalIsOpen: false,
+        modalContent: null,
     },
     // Manage
     manage: {
@@ -52,8 +56,6 @@ const initialState = {
 const globalStateReducer = (state, action) => {
     switch (action.type) {
         // Article
-        case "MODAL_IS_OPEN":
-            return {...state, article: {...state.article, modalIsOpen: action.payload}};
         case "CATEGORIES":
             return {...state, article: {...state.article, categories: action.payload}};
         case "ACTIVE_CATEGORY":
@@ -66,6 +68,11 @@ const globalStateReducer = (state, action) => {
             return {...state, article: {...state.article, authArticles: action.payload}};
         case "AUTH_ARTICLES_CURRENT":
             return {...state, article: {...state.article, authArticlesCurrent: action.payload}};
+        // Modal
+        case "MODAL_IS_OPEN":
+            return {...state, modal: {...state.modal, modalIsOpen: action.payload}};
+        case "MODAL_CONTENT":
+            return {...state, modal: {...state.modal, modalContent: action.payload}};
         // Manage
         case "IS_AUTHENTICATED":
             return {...state, manage: {...state.manage, isAuthenticated: action.payload}};
@@ -156,8 +163,6 @@ const useGlobalState = () => {
 
     const setArticle = (action) => {
         switch (action.type) {
-            case "modal_is_open":
-                return dispatch({type: "MODAL_IS_OPEN", payload: action.payload});
             case "categories":
                 return dispatch({type: "CATEGORIES", payload: action.payload});
             case "active_category":
@@ -170,6 +175,17 @@ const useGlobalState = () => {
                 return dispatch({type: "AUTH_ARTICLES", payload: action.payload});
             case "auth_articles_current":
                 return dispatch({type: "AUTH_ARTICLES_CURRENT", payload: action.payload});
+            default:
+                return "Some mismatch is getting over - Article!";
+        }
+    }
+
+    const setModal = (action) => {
+        switch (action.type) {
+            case "modal_is_open":
+                return dispatch({type: "MODAL_IS_OPEN", payload: action.payload});
+            case "modal_content":
+                return dispatch({type: "MODAL_CONTENT", payload: action.payload});
             default:
                 return "Some mismatch is getting over - Article!";
         }
@@ -274,6 +290,7 @@ const useGlobalState = () => {
 
     return {
         setArticle,
+        setModal,
         setManage,
         setLogin,
         setSignup,
