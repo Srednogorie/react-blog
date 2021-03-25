@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import useGlobalState from "../globalState";
 import firebase from "../firebase";
 import { useHistory } from "react-router-dom";
+import {Fragment} from "react";
 
 function Navigation() {
     const g = useGlobalState();
@@ -32,18 +33,17 @@ function Navigation() {
                     </a>
                 </div>
                 <div className={`navbar-menu ${g.s.manage.toggleMenu ? 'is-active is-active-panel' : ''}`}>
-                    <div className="navbar-start">
-                        {g.s.manage.isAuthenticated && <Link to="/writers" className="navbar-item has-text-weight-semibold nav-link">Writers</Link>}
-                        <Link to="/about" className="navbar-item has-text-weight-semibold nav-link">About Us</Link>
-                    </div>
                     <div className="navbar-end">
                         {g.s.manage.isAuthenticated && <input className={`input is-align-self-center is-size-7 mr-6 mt-2 header-search" type="text ${g.s.manage.toggleMenu ? 'is-active-search' : ''}`} placeholder="Find writers or stories"/>}
                         <div className="navbar-item">
                             <div className="buttons">
                                 {
-                                    g.s.manage.isAuthenticated ?
-                                        <Link to="#" onClick={handleLogout} className="has-text-weight-semibold sign-style">Sign out</Link> :
-                                        <Link to="/sign" className="has-text-weight-semibold sign-style">Sign in</Link>
+                                    g.s.manage.isAuthenticated ? (
+                                        <Fragment>
+                                            <Link to="/profile" className="navbar-item has-text-weight-semibold nav-link">Profile</Link>
+                                            <Link to="#" onClick={handleLogout} className="has-text-weight-semibold sign-style">Sign out</Link>
+                                        </Fragment>
+                                    ) : <Link to="/sign" className="has-text-weight-semibold sign-style">Sign in</Link>
                                 }
                             </div>
                         </div>
