@@ -13,6 +13,10 @@ function AuthLanding() {
     const deleteArticle = (event) => {
         console.log(event);
     }
+    const newArticle = (event) => {
+        g.setModal({type: "modal_is_open", payload: true});
+        g.setModal({type: "modal_content", payload: "form_create"});
+    }
 
     useEffect(() => {
         const currentCategory = g.s.article.categories[g.s.article.activeCategory];
@@ -24,7 +28,7 @@ function AuthLanding() {
         <div className="container px-6 landing-main">
             <div className="timeline is-centered">
                 <header className="timeline-header">
-                    <span className="tag is-medium is-primary timeline-header-custom">Write Article</span>
+                    <span onClick={newArticle} className="tag is-medium is-primary timeline-header-custom">Write Article</span>
                 </header>
                 {g.s.article.authArticlesCurrent && g.s.article.authArticlesCurrent.map((article, index) => (
                     <div className="timeline-item is-primary" key={article.key}>

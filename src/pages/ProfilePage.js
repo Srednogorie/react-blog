@@ -1,6 +1,8 @@
+import FormProfile from "../components/FormProfile";
+
 function ProfilePage() {
     return (
-        <p>PROFILE</p>
+        <FormProfile/>
     )
 }
 
