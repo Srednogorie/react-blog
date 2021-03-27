@@ -24,6 +24,14 @@ function App() {
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
                     g.setManage({type: "is_authenticated", payload: true});
+                    g.setAccount({type: "email", payload: user.email});
+                    const userPhoto = user.photoURL;
+                    const userName = user.displayName;
+                    if (userPhoto && userName) {
+                        g.setAccount({type: "username", payload: user.displayName});
+                        g.setAccount({type: "profilePicture", payload: user.photoURL});
+                        g.setAccount({type: "profileCompleted", payload: true});
+                    }
                 } else {
                     g.setManage({type: "is_authenticated", payload: false});
                 }

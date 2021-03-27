@@ -24,8 +24,9 @@ function Register() {
                 .then((userCredential) => {
                     // Signed in
                     const user = userCredential.user;
-                    formik.resetForm();
+                    // formik.resetForm();
                     g.setManage({type: "is_authenticated", payload: true});
+                    g.setAccount({type: "email", payload: user.email});
                     history.push("/profile");
                 })
                 .catch((error) => {

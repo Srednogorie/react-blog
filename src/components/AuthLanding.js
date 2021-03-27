@@ -15,7 +15,11 @@ function AuthLanding() {
     }
     const newArticle = (event) => {
         g.setModal({type: "modal_is_open", payload: true});
-        g.setModal({type: "modal_content", payload: "form_create"});
+        if (g.s.account.profileCompleted) {
+            g.setModal({type: "modal_content", payload: "form_create"});
+        } else {
+            g.setModal({type: "modal_content", payload: "profile_prompt"});
+        }
     }
 
     useEffect(() => {

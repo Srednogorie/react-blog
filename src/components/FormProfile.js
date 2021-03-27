@@ -4,9 +4,11 @@ import {Fragment, useEffect} from "react";
 import {useFormik, Field, FormikProvider} from "formik";
 import firebase from "../firebase";
 import FileUpload from "./FileUpload";
+import {fileUpload} from "../utils";
 
 function FormProfile() {
     const g = useGlobalState();
+
     FormProfile.handleClickOutside = () => g.setModal({type: "modal_is_open", payload: false});
 
     const formik = useFormik({
@@ -17,7 +19,12 @@ function FormProfile() {
             avatarFile: ""
         },
         onSubmit(values) {
-            console.log(values);
+            const fileUrl = fileUpload("profile_images", values.avatarFile);
+            if (fileUrl) {
+                // Update Profile
+            } else {
+                // Handle something went wrong
+            }
             // g.setLogin({type: "errors", payload: {"message": ""}});
             // g.setManage({type: "is_authenticated", payload: null});
             // const email = values.email;
@@ -62,14 +69,14 @@ function FormProfile() {
             </div>
 
             <div className="field">
-                <label className="label label-modal">Email</label>
+                <label className="label">Email</label>
                 <div className="control">
-                    <input className="input" type="text" value="akrachunov@gmail.com" disabled style={{color: "#c3c6cc"}}/>
+                    <input className="input" type="text" value={g.s.account.email} disabled style={{color: "#c3c6cc"}}/>
                 </div>
             </div>
 
             <FormikProvider value={formik}>
-                <Field name="imageFile" component={FileUpload}/>
+                <Field name="avatarFile" component={FileUpload}/>
             </FormikProvider>
 
             <div className="field is-grouped create-buttons">
