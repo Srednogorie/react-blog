@@ -6,7 +6,7 @@ function FileUpload(props) {
     const handleChange = (e) => {
         const file  =  e.currentTarget.files[0];
         const reader = new FileReader();
-        const imgTag = document.getElementById("articleImageCreate");
+        const imgTag = document.getElementById("fileId");
         imgTag.title = file.name;
         reader.onload = function(event) {
             imgTag.src = event.target.result;
@@ -17,14 +17,14 @@ function FileUpload(props) {
 
     return (
         <div className="file has-name is-fullwidth">
-            <label className="file-label label-modal">
-                <input id="articleImageCreate" type='file' onChange={(o) => handleChange(o)} className='file-input'/>
+            <label className="file-label">
+                <input id="fileId" type='file' onChange={(o) => handleChange(o)} className='file-input'/>
                 <span className="file-cta">
                           <span className="file-label">
-                            Choose article image
+                            Choose profile image
                           </span>
                         </span>
-                <span className="file-name">{form.values.imageFile ? form.values.imageFile.name : "File not attached"}</span>
+                <span className="file-name">{form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}</span>
             </label>
         </div>
     );
