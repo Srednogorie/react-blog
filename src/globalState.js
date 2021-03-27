@@ -49,7 +49,8 @@ const initialState = {
         country: '',
         profilePicture: '',
         buttonLoading: false,
-        imageError: ''
+        imageError: '',
+        profileCompleted: false,
     }
 };
 
@@ -132,6 +133,8 @@ const globalStateReducer = (state, action) => {
             return {...state, account: {...state.account, buttonLoading: action.payload}};
         case "IMAGE_ERROR":
             return {...state, account: {...state.account, imageError: action.payload}};
+        case "PROFILE_COMPLETED":
+            return {...state, account: {...state.account, profileCompleted: action.payload}};
         // Default
         default:
             return state;
@@ -283,6 +286,8 @@ const useGlobalState = () => {
                 return dispatch({type: "BUTTON_LOADING", payload: action.payload});
             case "imageError":
                 return dispatch({type: "IMAGE_ERROR", payload: action.payload});
+            case "profileCompleted":
+                return dispatch({type: "PROFILE_COMPLETED", payload: action.payload});
             default:
                 return "Some mismatch is getting over - Account!";
         }
