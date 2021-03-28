@@ -15,7 +15,7 @@ function AuthLanding() {
         })
         g.setArticle({type: "edit_article", payload: article[0]});
     }
-    const deleteArticle = (event) => {
+    const deleteArticle = (event, id) => {
         console.log(event);
     }
     const newArticle = (event) => {
@@ -47,10 +47,12 @@ function AuthLanding() {
                             <p className="heading">{article.created.toDate().toLocaleDateString('en-UK')}</p>
                             <p className="heading">By: {article.author}</p>
                             <p>{article.title}</p>
-                            <div className="manage-buttons">
-                                <button onClick={(e) => editArticle(e, article.key)} className="manage-buttons-btn">Edit</button>
-                                <button onClick={deleteArticle} className="manage-buttons-btn">Delete</button>
-                            </div>
+                            {g.s.account.email === article.author_email && (
+                                <div className="manage-buttons">
+                                    <button onClick={(e) => editArticle(e, article.key)} className="manage-buttons-btn">Edit</button>
+                                    <button onClick={(e) => deleteArticle(e, article.key)} className="manage-buttons-btn">Delete</button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}

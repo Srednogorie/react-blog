@@ -23,10 +23,11 @@ function FormProfile() {
                 const file = await resizeFile(values.avatarFile);
                 const fileUrl = await fileUpload("profile_images", file);
                 if (fileUrl) {
-                    const profileUpdated = updateProfile(fileUrl, values.pseudonym);
+                    const {url, fileRef} = fileUrl
+                    const profileUpdated = updateProfile(url, values.pseudonym);
                     if (profileUpdated) {
                         g.setAccount({type: "username", payload: values.pseudonym});
-                        g.setAccount({type: "profilePicture", payload: fileUrl});
+                        g.setAccount({type: "profilePicture", payload: url});
                         g.setAccount({type: "profileCompleted", payload: true});
                     }
                 } else {

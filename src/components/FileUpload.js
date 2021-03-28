@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import useGlobalState from "../globalState";
 
 function FileUpload(props) {
@@ -21,13 +21,27 @@ function FileUpload(props) {
         <div className="file has-name is-fullwidth">
             <label className="file-label">
                 <input id="fileId" type='file' onChange={(o) => handleChange(o)} className='file-input'/>
-                <span className="file-cta">
-                          <span className="file-label">
-                              {props.identifier === "formProfile" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}
-                              {/*{props.identifier === "formArticle" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}*/}
-                          </span>
+                {props.identifier === "formProfile" && (
+                    <Fragment>
+                        <span className="file-cta">
+                            <span className="file-label">
+                                {props.identifier === "formProfile" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}
+                                {/*{props.identifier === "formArticle" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}*/}
+                            </span>
                         </span>
-                <span className={`file-name ${props.identifier === "formArticle" ? "label-modal" : ""}`}>{form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}</span>
+                        <span className={`file-name ${props.identifier === "formArticle" ? "label-modal" : ""}`}>{form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}</span>
+                    </Fragment>
+                )}
+                {props.identifier === "formArticle" && (
+                    <Fragment>
+                        <span className="file-cta">
+                            <span className="file-label">
+                                {`Choose ${props.buttonText}`}
+                            </span>
+                        </span>
+                        <span className="file-name label-modal">{form.values.imageFile ? form.values.imageFile.name : "Image not attached"}</span>
+                    </Fragment>
+                )}
             </label>
         </div>
     );

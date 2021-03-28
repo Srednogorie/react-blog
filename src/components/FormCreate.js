@@ -2,6 +2,9 @@ import onClickOutside from "react-onclickoutside";
 import useGlobalState from "../globalState";
 import {useFormik, Field, FormikProvider} from "formik";
 import FileUpload from "./FileUpload";
+import {createDocument, fileUpload, resizeFile} from "../utils";
+import firebase from "../firebase";
+import {useEffect} from "react";
 
 function FormCreate() {
     const g = useGlobalState();
@@ -16,11 +19,25 @@ function FormCreate() {
             title: "",
             subtitle: "",
             content: "",
-            imageFile: "",
+            image_url: "",
             created: ""
         },
-        onSubmit(values) {
-            console.log(values);
+        async onSubmit(values) {
+            const {imageFile, ...data} = values;
+            const file = await resizeFile(imageFile);
+            const fileUrl = await fileUpload("article_images", file);
+            if (fileUrl) {
+                const {url, fileRef} = fileUrl
+                data.image_url = url;
+                data.image_ref = fileRef;
+                data.author_email = g.s.account.email;
+                data.created = firebase.firestore.Timestamp.fromDate(new Date());
+                const newDoc = await createDocument(data, "articles");
+                let newArticleState = g.s.article.authArticles;
+                data.key = newDoc.id;
+                newArticleState.unshift(data);
+                g.setArticle({type: "auth_articles", payload: [...newArticleState]});
+            }
             // g.setLogin({type: "errors", payload: {"message": ""}});
             // g.setManage({type: "is_authenticated", payload: null});
             // const email = values.email;
@@ -54,6 +71,12 @@ function FormCreate() {
         //     return errors;
         // },
     });
+    useEffect(() => {
+        const currentCategory = g.s.article.categories[g.s.article.activeCategory];
+        const currentArticles = g.s.article.authArticles;
+        const currentCategoryArticles = currentArticles.filter(obj => obj.category === currentCategory);
+        g.setArticle({type: "auth_articles_current", payload: currentCategoryArticles});
+    }, [g.s.article.authArticles])
 
     return (
         <div>
@@ -81,13 +104,7 @@ function FormCreate() {
             <div className="field">
                 <label className="label label-modal">Title</label>
                 <div className="control has-icons-left has-icons-right">
-                    <input className="input is-success" type="text" placeholder="Title" name="title" value={formik.values.title} onChange={formik.handleChange}/>
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-user"></i>
-                    </span>
-                    <span className="icon is-small is-right">
-                        <i className="fas fa-check"></i>
-                    </span>
+                    <input className="input is-success" type="text" placeholder="Title" name="title" autoComplete="off" value={formik.values.title} onChange={formik.handleChange}/>
                 </div>
                 <p className="help is-success">This username is available</p>
             </div>
@@ -95,13 +112,7 @@ function FormCreate() {
             <div className="field">
                 <label className="label label-modal">Subtitle</label>
                 <div className="control has-icons-left has-icons-right">
-                    <input className="input is-success" type="text" placeholder="Subtitle" name="subtitle" value={formik.values.subtitle} onChange={formik.handleChange}/>
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                    <span className="icon is-small is-right">
-                        <i className="fas fa-exclamation-triangle"></i>
-                    </span>
+                    <input className="input is-success" type="text" placeholder="Subtitle" name="subtitle" autoComplete="off" value={formik.values.subtitle} onChange={formik.handleChange}/>
                 </div>
                 <p className="help is-danger">This email is invalid</p>
             </div>
@@ -109,7 +120,7 @@ function FormCreate() {
             <div className="field">
                 <label className="label label-modal">Content</label>
                 <div className="control">
-                    <textarea className="textarea" placeholder="Your article" name="content" onChange={formik.handleChange} value={formik.values.content}></textarea>
+                    <textarea className="textarea" placeholder="Your article" name="content" onChange={formik.handleChange} value={formik.values.content}/>
                 </div>
             </div>
             <FormikProvider value={formik}>
