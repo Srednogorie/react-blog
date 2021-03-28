@@ -9,7 +9,8 @@ const truncate = (str, n) => {
 const fileUpload = (path, file) => {
     return new Promise(function(resolve, reject) {
         const storageRef = firebase.storage().ref();
-        const reference = storageRef.child(`${path}/${uuidv4()}`);
+        const fileName = uuidv4();
+        const reference = storageRef.child(`${path}/${fileName}`);
         let uploadTask = reference.putString(file, 'data_url');
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
             (snapshot) => {
@@ -45,7 +46,7 @@ const fileUpload = (path, file) => {
             },
             () => {
                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                    resolve(downloadURL)
+                    resolve({url: downloadURL, fileRef: fileName})
                 })
             }
         );
@@ -55,7 +56,6 @@ const fileUpload = (path, file) => {
 const updateProfile = (photoUrl, pseudonym) => {
     return new Promise((resolve, reject) => {
         const user = firebase.auth().currentUser;
-
         user.updateProfile({
             displayName: pseudonym,
             photoURL: photoUrl
@@ -82,6 +82,30 @@ const updateDocument = (id, data, collection) => {
     })
 }
 
+const createDocument = (data, collection) => {
+    const db = firebase.firestore();
+    return new Promise((resolve, reject) => {
+        db.collection(collection).add(data)
+        .then((docRef) => {
+            resolve(docRef)
+        })
+        .catch((error) => {
+            reject(error)
+        });
+    })
+}
+
+const deleteDocument = (collection, id) => {
+    const db = firebase.firestore();
+    return new Promise((resolve, reject) => {
+        db.collection(collection).doc(id).delete().then(() => {
+            resolve(200)
+        }).catch((error) => {
+            reject(error)
+        });
+    })
+}
+
 const resizeFile = (file) => {
     return new Promise((resolve, reject) => {
         Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
@@ -93,4 +117,7 @@ const resizeFile = (file) => {
     });
 }
 
-export {truncate, fileUpload, updateProfile, updateDocument, resizeFile}
+export {
+    truncate, fileUpload, updateProfile, updateDocument, resizeFile,
+    createDocument, deleteDocument
+}
