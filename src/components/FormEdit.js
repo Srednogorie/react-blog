@@ -2,25 +2,33 @@ import onClickOutside from "react-onclickoutside";
 import useGlobalState from "../globalState";
 import {useFormik, Field, FormikProvider} from "formik";
 import FileUpload from "./FileUpload";
+import {updateDocument} from "../utils";
 
-function FormCreate() {
+function FormEdit() {
     const g = useGlobalState();
-    FormCreate.handleClickOutside = () => g.setModal({type: "modal_is_open", payload: false});
+    FormEdit.handleClickOutside = () => g.setModal({type: "modal_is_open", payload: false});
 
     const formik = useFormik({
         validateOnChange: false,
         validateOnBlur: false,
         initialValues: {
             author: g.s.account.username,
-            category: "",
-            title: "",
-            subtitle: "",
-            content: "",
+            category: g.s.article.editArticle.category,
+            title: g.s.article.editArticle.title,
+            subtitle: g.s.article.editArticle.subtitle,
+            content: g.s.article.editArticle.content,
             imageFile: "",
             created: ""
         },
-        onSubmit(values) {
-            console.log(values);
+        async onSubmit(values) {
+            let data = values
+            Object.keys(data).forEach((k) => data[k] === "" && delete data[k]);
+            const updateCode = await updateDocument(g.s.article.editArticle.key, data, "articles");
+            if (updateCode === 200) {
+                const article = g.s.article.authArticles.filter((article) => {
+                    return article.key === g.s.article.editArticle.key;
+                })
+            }
             // g.setLogin({type: "errors", payload: {"message": ""}});
             // g.setManage({type: "is_authenticated", payload: null});
             // const email = values.email;
@@ -129,7 +137,7 @@ function FormCreate() {
 }
 
 const clickOutsideConfig = {
-    handleClickOutside: () => FormCreate.handleClickOutside
+    handleClickOutside: () => FormEdit.handleClickOutside
 };
 
-export default onClickOutside(FormCreate, clickOutsideConfig);
+export default onClickOutside(FormEdit, clickOutsideConfig);

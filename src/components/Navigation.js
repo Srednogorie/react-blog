@@ -11,13 +11,17 @@ function Navigation() {
     const handleLogout = (event) => {
         firebase.auth().signOut().then(() => {
             // Sign-out successful. Redirect to home.
+            g.setAccount({type: "email", payload: ''});
+            g.setAccount({type: "username", payload: ''});
+            g.setAccount({type: "profilePicture", payload: ''});
+            g.setAccount({type: "profileCompleted", payload: false});
             history.push("/");
         }).catch((error) => {
             console.log(error)
         });
     }
     const handleToggle = (event) => {
-        g.setManage({type: "toggle_menu", payload: !g.s.manage.toggleMenu})
+        g.setManage({type: "toggle_menu", payload: !g.s.manage.toggleMenu});
     }
     return (
         <nav className="navbar custom-nav">

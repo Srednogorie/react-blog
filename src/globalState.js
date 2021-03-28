@@ -12,6 +12,7 @@ const initialState = {
       nonAuthArticlesCurrent: null,
       authArticles: [],
       authArticlesCurrent: null,
+      editArticle: null
     },
     // Modal management
     modal: {
@@ -51,6 +52,7 @@ const initialState = {
         buttonLoading: false,
         imageError: '',
         profileCompleted: false,
+        defaultAvatar: "https://firebasestorage.googleapis.com/v0/b/mysoftexam.appspot.com/o/profile_images%2FstackSubDefaultAvatar.png?alt=media&token=4c923092-ad3a-41fa-be2f-f0d48e5a73c4"
     }
 };
 
@@ -69,6 +71,8 @@ const globalStateReducer = (state, action) => {
             return {...state, article: {...state.article, authArticles: action.payload}};
         case "AUTH_ARTICLES_CURRENT":
             return {...state, article: {...state.article, authArticlesCurrent: action.payload}};
+        case "EDIT_ARTICLE":
+            return {...state, article: {...state.article, editArticle: action.payload}};
         // Modal
         case "MODAL_IS_OPEN":
             return {...state, modal: {...state.modal, modalIsOpen: action.payload}};
@@ -178,6 +182,8 @@ const useGlobalState = () => {
                 return dispatch({type: "AUTH_ARTICLES", payload: action.payload});
             case "auth_articles_current":
                 return dispatch({type: "AUTH_ARTICLES_CURRENT", payload: action.payload});
+            case "edit_article":
+                return dispatch({type: "EDIT_ARTICLE", payload: action.payload});
             default:
                 return "Some mismatch is getting over - Article!";
         }

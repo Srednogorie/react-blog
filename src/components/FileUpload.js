@@ -1,7 +1,9 @@
 import React from 'react';
+import useGlobalState from "../globalState";
 
 function FileUpload(props) {
     const {field, form} = props;
+    const g = useGlobalState();
 
     const handleChange = (e) => {
         const file  =  e.currentTarget.files[0];
@@ -21,10 +23,11 @@ function FileUpload(props) {
                 <input id="fileId" type='file' onChange={(o) => handleChange(o)} className='file-input'/>
                 <span className="file-cta">
                           <span className="file-label">
-                            Choose profile image
+                              {props.identifier === "formProfile" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}
+                              {/*{props.identifier === "formArticle" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}*/}
                           </span>
                         </span>
-                <span className="file-name">{form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}</span>
+                <span className={`file-name ${props.identifier === "formArticle" ? "label-modal" : ""}`}>{form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}</span>
             </label>
         </div>
     );

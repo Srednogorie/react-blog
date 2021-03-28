@@ -7,8 +7,13 @@ function AuthLanding() {
     const openArticle = (event) => {
         console.log(event);
     }
-    const editArticle = (event) => {
-        console.log(event);
+    const editArticle = (event, id) => {
+        g.setModal({type: "modal_is_open", payload: true});
+        g.setModal({type: "modal_content", payload: "form_edit"});
+        const article = g.s.article.authArticles.filter((article) => {
+            return article.key === id;
+        })
+        g.setArticle({type: "edit_article", payload: article[0]});
     }
     const deleteArticle = (event) => {
         console.log(event);
@@ -43,7 +48,7 @@ function AuthLanding() {
                             <p className="heading">By: {article.author}</p>
                             <p>{article.title}</p>
                             <div className="manage-buttons">
-                                <button onClick={editArticle} className="manage-buttons-btn">Edit</button>
+                                <button onClick={(e) => editArticle(e, article.key)} className="manage-buttons-btn">Edit</button>
                                 <button onClick={deleteArticle} className="manage-buttons-btn">Delete</button>
                             </div>
                         </div>

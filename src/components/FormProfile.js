@@ -1,13 +1,13 @@
 import onClickOutside from "react-onclickoutside";
 import useGlobalState from "../globalState";
-import {Fragment, useEffect} from "react";
 import {useFormik, Field, FormikProvider} from "formik";
-import firebase from "../firebase";
 import FileUpload from "./FileUpload";
-import {fileUpload} from "../utils";
+import {fileUpload, resizeFile, updateProfile} from "../utils";
+import {useHistory} from "react-router-dom";
 
 function FormProfile() {
     const g = useGlobalState();
+    const history = useHistory();
 
     FormProfile.handleClickOutside = () => g.setModal({type: "modal_is_open", payload: false});
 
@@ -15,34 +15,26 @@ function FormProfile() {
         validateOnChange: false,
         validateOnBlur: false,
         initialValues: {
-            pseudonym: "",
+            pseudonym: g.s.account.username || "",
             avatarFile: ""
         },
-        onSubmit(values) {
-            const fileUrl = fileUpload("profile_images", values.avatarFile);
-            if (fileUrl) {
-                // Update Profile
-            } else {
-                // Handle something went wrong
+        async onSubmit(values) {
+            try {
+                const file = await resizeFile(values.avatarFile);
+                const fileUrl = await fileUpload("profile_images", file);
+                if (fileUrl) {
+                    const profileUpdated = updateProfile(fileUrl, values.pseudonym);
+                    if (profileUpdated) {
+                        g.setAccount({type: "username", payload: values.pseudonym});
+                        g.setAccount({type: "profilePicture", payload: fileUrl});
+                        g.setAccount({type: "profileCompleted", payload: true});
+                    }
+                } else {
+                    // Handle something went wrong
+                }
+            } catch(err) {
+                console.log(err);
             }
-            // g.setLogin({type: "errors", payload: {"message": ""}});
-            // g.setManage({type: "is_authenticated", payload: null});
-            // const email = values.email;
-            // const password = values.password;
-            // firebase.auth().signInWithEmailAndPassword(email, password)
-            //     .then((userCredential) => {
-            //         // Signed in
-            //         const user = userCredential.user;
-            //         formik.resetForm();
-            //         g.setManage({type: "is_authenticated", payload: true});
-            //         // history.push("/");
-            //     })
-            //     .catch((error) => {
-            //         // const errorCode = error.code;
-            //         const errorMessage = error.message;
-            //         g.setLogin({type: "errors", payload: {"message": errorMessage}});
-            //         formik.resetForm();
-            //     });
         },
         // validate(values) {
         //     const errors = {};
@@ -61,10 +53,19 @@ function FormProfile() {
 
     return (
         <div className="modal-content form-profile">
+            <div className="profile-image-wrap">
+                <div className="profile-image" style={
+                    g.s.account.profilePicture ?
+                        {backgroundImage: `url(${g.s.account.profilePicture})`} :
+                        {backgroundImage: `url(${g.s.account.defaultAvatar})`}}
+                >
+                </div>
+            </div>
+
             <div className="field">
                 <label className="label">Pseudonym</label>
                 <div className="control">
-                    <input className="input" type="text" value=""/>
+                    <input className="input" onChange={formik.handleChange} value={formik.values.pseudonym} type="text" name="pseudonym" placeholder="Your pseudonym" />
                 </div>
             </div>
 
@@ -76,7 +77,7 @@ function FormProfile() {
             </div>
 
             <FormikProvider value={formik}>
-                <Field name="avatarFile" component={FileUpload}/>
+                <Field name="avatarFile" buttonText="profile image" identifier="formProfile" component={FileUpload}/>
             </FormikProvider>
 
             <div className="field is-grouped create-buttons">
