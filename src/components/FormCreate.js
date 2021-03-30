@@ -42,11 +42,6 @@ function FormCreate() {
         },
         validate(values) {
             const errors = {};
-            // if (!values.email) {
-            //     errors.email = 'Required';
-            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            //     errors.email = 'Invalid email address';
-            // }
             // Validate category
             if (!values.category) {
                 errors.category = 'This filed is required';
@@ -162,9 +157,9 @@ function FormCreate() {
                 <div className="control">
                     <button className="button create-submit-btn" type="submit" onClick={formik.handleSubmit}>Submit</button>
                 </div>
-                <div className="control">
-                    <button className="button create-cancel-btn">Cancel</button>
-                </div>
+                {/*<div className="control">*/}
+                {/*    <button className="button create-cancel-btn">Cancel</button>*/}
+                {/*</div>*/}
             </div>
         </div>
     )

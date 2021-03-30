@@ -16,7 +16,9 @@ function AuthLanding() {
         g.setArticle({type: "edit_article", payload: article[0]});
     }
     const deleteArticle = (event, id) => {
-        console.log(event);
+        g.setArticle({type: "delete_article", payload: id})
+        g.setModal({type: "modal_content", payload: "delete_article"});
+        g.setModal({type: "modal_is_open", payload: true});
     }
     const newArticle = (event) => {
         g.setModal({type: "modal_is_open", payload: true});

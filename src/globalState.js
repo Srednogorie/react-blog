@@ -12,7 +12,8 @@ const initialState = {
       nonAuthArticlesCurrent: null,
       authArticles: [],
       authArticlesCurrent: null,
-      editArticle: null
+      editArticle: null,
+      deleteArticle: null
     },
     // Modal management
     modal: {
@@ -73,6 +74,8 @@ const globalStateReducer = (state, action) => {
             return {...state, article: {...state.article, authArticlesCurrent: action.payload}};
         case "EDIT_ARTICLE":
             return {...state, article: {...state.article, editArticle: action.payload}};
+        case "DELETE_ARTICLE":
+            return {...state, article: {...state.article, deleteArticle: action.payload}};
         // Modal
         case "MODAL_IS_OPEN":
             return {...state, modal: {...state.modal, modalIsOpen: action.payload}};
@@ -184,6 +187,8 @@ const useGlobalState = () => {
                 return dispatch({type: "AUTH_ARTICLES_CURRENT", payload: action.payload});
             case "edit_article":
                 return dispatch({type: "EDIT_ARTICLE", payload: action.payload});
+            case "delete_article":
+                return dispatch({type: "DELETE_ARTICLE", payload: action.payload});
             default:
                 return "Some mismatch is getting over - Article!";
         }

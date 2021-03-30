@@ -3,6 +3,7 @@ import Article from "./Article";
 import FormCreate from "./FormCreate";
 import ProfilePrompt from "./ProfilePrompt";
 import FormEdit from "./FormEdit";
+import DeleteArticle from "./DeleteArticle";
 
 function Modal() {
     const g = useGlobalState();
@@ -14,6 +15,7 @@ function Modal() {
                 {g.s.modal.modalContent === "form_create" && <FormCreate />}
                 {g.s.modal.modalContent === "form_edit" && <FormEdit />}
                 {g.s.modal.modalContent === "profile_prompt" && <ProfilePrompt />}
+                {g.s.modal.modalContent === "delete_article" && <DeleteArticle />}
             </div>
         </div>
     )
