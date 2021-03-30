@@ -18,7 +18,7 @@ function FileUpload(props) {
     };
 
     return (
-        <div className={`file has-name is-fullwidth ${props.isDanger && "is-danger"}`}>
+        <div className={`file has-name is-fullwidth ${props.isDanger && "is-danger"}`} onClick={(e) => props.cb(e)}>
             <label className="file-label">
                 <input id="fileId" type='file' onChange={(o) => handleChange(o)} className='file-input'/>
                 {props.identifier === "formProfile" && (
@@ -28,7 +28,9 @@ function FileUpload(props) {
                                 {props.identifier === "formProfile" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}
                             </span>
                         </span>
-                        <span className={`file-name ${props.identifier === "formArticle" ? "label-modal" : ""}`}>{form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}</span>
+                        <span className={`file-name ${props.identifier === "formArticle" ? "label-modal" : ""}`}>
+                            {form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}
+                        </span>
                     </Fragment>
                 )}
                 {props.identifier === "formArticle" && (
@@ -38,7 +40,7 @@ function FileUpload(props) {
                                 {`Choose ${props.buttonText}`}
                             </span>
                         </span>
-                        <span className="file-name label-modal">{form.values.imageFile ? form.values.imageFile.name : "Image not attached"}</span>
+                        <span className={`file-name label-modal ${props.isDanger && "file-name-danger"}`}>{form.values.imageFile ? form.values.imageFile.name : "Image not attached"}</span>
                     </Fragment>
                 )}
             </label>

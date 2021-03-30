@@ -10,10 +10,6 @@ function FormCreate() {
     const g = useGlobalState();
     FormCreate.handleClickOutside = () => g.setModal({type: "modal_is_open", payload: false});
 
-    const handleFileClick = (e) => {
-        console.log(e);
-    }
-
     const formik = useFormik({
         validateOnChange: false,
         validateOnBlur: false,
@@ -77,6 +73,11 @@ function FormCreate() {
             return errors;
         },
     });
+
+    const handleFileClick = (e) => {
+        formik.setErrors({...formik.errors, "imageFile": ""})
+    }
+
     useEffect(() => {
         const currentCategory = g.s.article.categories[g.s.article.activeCategory];
         const currentArticles = g.s.article.authArticles;
@@ -152,7 +153,7 @@ function FormCreate() {
             <FormikProvider value={formik}>
                 <Field
                     name="imageFile" buttonText="article image" identifier="formArticle" component={FileUpload}
-                    isDanger={!!(formik.touched.imageFile && formik.errors.imageFile)} onClick={handleFileClick}
+                    isDanger={!!(formik.touched.imageFile && formik.errors.imageFile)} cb={handleFileClick}
                 />
                 {formik.touched.imageFile && formik.errors.imageFile ? <p className="help is-danger">{formik.errors.imageFile}</p> : null}
             </FormikProvider>
