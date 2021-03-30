@@ -18,7 +18,7 @@ function FileUpload(props) {
     };
 
     return (
-        <div className="file has-name is-fullwidth">
+        <div className={`file has-name is-fullwidth ${props.isDanger && "is-danger"}`}>
             <label className="file-label">
                 <input id="fileId" type='file' onChange={(o) => handleChange(o)} className='file-input'/>
                 {props.identifier === "formProfile" && (
@@ -26,7 +26,6 @@ function FileUpload(props) {
                         <span className="file-cta">
                             <span className="file-label">
                                 {props.identifier === "formProfile" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}
-                                {/*{props.identifier === "formArticle" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}*/}
                             </span>
                         </span>
                         <span className={`file-name ${props.identifier === "formArticle" ? "label-modal" : ""}`}>{form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}</span>
