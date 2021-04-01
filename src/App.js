@@ -12,6 +12,8 @@ import RouteAuthenticated from "./protectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import Loading from "./components/Loading";
 import Modal from "./components/Modal";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const g =   useGlobalState();
@@ -55,6 +57,8 @@ function App() {
     }, []);
     return (
         <div className="page-wrapper">
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={true} newestOnTop={false}
+                            closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover closeButton={false}/>
             {g.s.manage.isAuthenticated === null ? <Loading /> :
                 <Fragment>
                     {g.s.modal.modalIsOpen && <Modal />}
