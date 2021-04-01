@@ -3,7 +3,8 @@ import useGlobalState from "../globalState";
 import {useFormik, Field, FormikProvider} from "formik";
 import FileUpload from "./FileUpload";
 import {updateDocument} from "../utils";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import {toast} from "react-toastify";
 
 function FormEdit() {
     const g = useGlobalState();
@@ -32,39 +33,31 @@ function FormEdit() {
                         el => (el.key === g.s.article.editArticle.key ? {...el, ...data} : el)
                     )
                 });
+                g.setModal({type: "modal_is_open", payload: false});
+                g.setModal({type: "modal_content", payload: ""});
+                toast.success("Article updated", {className: "is-success-alert"});
             }
-            // g.setLogin({type: "errors", payload: {"message": ""}});
-            // g.setManage({type: "is_authenticated", payload: null});
-            // const email = values.email;
-            // const password = values.password;
-            // firebase.auth().signInWithEmailAndPassword(email, password)
-            //     .then((userCredential) => {
-            //         // Signed in
-            //         const user = userCredential.user;
-            //         formik.resetForm();
-            //         g.setManage({type: "is_authenticated", payload: true});
-            //         // history.push("/");
-            //     })
-            //     .catch((error) => {
-            //         // const errorCode = error.code;
-            //         const errorMessage = error.message;
-            //         g.setLogin({type: "errors", payload: {"message": errorMessage}});
-            //         formik.resetForm();
-            //     });
         },
-        // validate(values) {
-        //     const errors = {};
-        //     if (!values.email) {
-        //         errors.email = 'Required';
-        //     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        //         errors.email = 'Invalid email address';
-        //     }
-        //     // Validate passwords
-        //     if (!values.password) {
-        //         errors.password = 'Required';
-        //     }
-        //     return errors;
-        // },
+        validate(values) {
+            const errors = {};
+            // Validate category
+            if (!values.category) {
+                errors.category = 'This filed is required';
+            }
+            // Validate title
+            if (!values.title) {
+                errors.title = 'This filed is required';
+            }
+            // Validate subtitle
+            if (!values.subtitle) {
+                errors.subtitle = 'This filed is required';
+            }
+            // Validate content
+            if (!values.content) {
+                errors.content = 'This filed is required';
+            }
+            return errors;
+        },
     });
     useEffect(() => {
         return () => {
@@ -83,7 +76,10 @@ function FormEdit() {
             <div className="field">
                 <label className="label label-modal">Category</label>
                 <div className="control">
-                    <div className="select is-fullwidth">
+                    <div
+                        className={`select is-fullwidth ${formik.touched.category && formik.errors.category ? "is-danger" : ""}`}
+                        onClick={e => {formik.setErrors({...formik.errors, "category": ""})}}
+                    >
                         <select required name="category" value={formik.values.category} onChange={formik.handleChange}>
                             <option value="" disabled selected hidden>Select Category</option>
                             {g.s.article.categories.map((category, index) => {
@@ -91,38 +87,50 @@ function FormEdit() {
                             })}
                         </select>
                     </div>
+                    {formik.touched.category && formik.errors.category ? <p className="help is-danger">{formik.errors.category}</p> : null}
                 </div>
             </div>
 
             <div className="field">
                 <label className="label label-modal">Title</label>
                 <div className="control has-icons-left has-icons-right">
-                    <input className="input is-success" type="text" placeholder="Title" name="title" autoComplete="off" value={formik.values.title} onChange={formik.handleChange}/>
+                    <input
+                        className={`input ${formik.touched.title && formik.errors.title ? "is-danger" : ""}`}
+                        type="text" placeholder="Title" name="title" autoComplete="off" value={formik.values.title}
+                        onClick={e => {formik.setErrors({...formik.errors, "title": ""})}}
+                        onChange={formik.handleChange}/>
                 </div>
-                <p className="help is-success">This username is available</p>
+                {formik.touched.title && formik.errors.title ? <p className="help is-danger">{formik.errors.title}</p> : null}
             </div>
 
             <div className="field">
                 <label className="label label-modal">Subtitle</label>
                 <div className="control has-icons-left has-icons-right">
-                    <input className="input is-success" type="text" placeholder="Subtitle" name="subtitle" autoComplete="off" value={formik.values.subtitle} onChange={formik.handleChange}/>
+                    <input
+                        className={`input ${formik.touched.subtitle && formik.errors.subtitle ? "is-danger" : ""}`}
+                        type="text" placeholder="Subtitle" name="subtitle" autoComplete="off" value={formik.values.subtitle}
+                        onClick={e => {formik.setErrors({...formik.errors, "subtitle": ""})}}
+                        onChange={formik.handleChange}/>
                 </div>
-                <p className="help is-danger">This email is invalid</p>
+                {formik.touched.subtitle && formik.errors.subtitle ? <p className="help is-danger">{formik.errors.subtitle}</p> : null}
             </div>
 
             <div className="field">
                 <label className="label label-modal">Content</label>
                 <div className="control">
-                    <textarea className="textarea" placeholder="Your article" name="content" onChange={formik.handleChange} value={formik.values.content}/>
+                    <textarea
+                        className={`textarea ${formik.touched.content && formik.errors.content ? "is-danger" : ""}`}
+                        placeholder="Your article" name="content" onChange={formik.handleChange}
+                        value={formik.values.content}
+                        onClick={e => {formik.setErrors({...formik.errors, "content": ""})}}
+                    />
                 </div>
+                {formik.touched.content && formik.errors.content ? <p className="help is-danger">{formik.errors.content}</p> : null}
             </div>
 
             <div className="field is-grouped create-buttons">
                 <div className="control">
                     <button className="button create-submit-btn" type="submit" onClick={formik.handleSubmit}>Submit</button>
-                </div>
-                <div className="control">
-                    <button className="button create-cancel-btn">Cancel</button>
                 </div>
             </div>
         </div>

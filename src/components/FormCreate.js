@@ -5,6 +5,7 @@ import FileUpload from "./FileUpload";
 import {createDocument, fileUpload, resizeFile} from "../utils";
 import firebase from "../firebase";
 import React, {useEffect} from "react";
+import {toast} from "react-toastify";
 
 function FormCreate() {
     const g = useGlobalState();
@@ -38,6 +39,9 @@ function FormCreate() {
                 data.key = newDoc.id;
                 newArticleState.unshift(data);
                 g.setArticle({type: "auth_articles", payload: [...newArticleState]});
+                g.setModal({type: "modal_is_open", payload: false});
+                g.setModal({type: "modal_content", payload: ""});
+                toast.success("Well done you Shakespeare!", {className: "is-success-alert"});
             }
         },
         validate(values) {
