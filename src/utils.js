@@ -106,6 +106,19 @@ const deleteDocument = (collection, id) => {
     })
 }
 
+const deleteStorageItem = (collection, fileName) => {
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    const desertRef = storageRef.child(`${collection}/${fileName}`);
+    return new Promise((resolve, reject) => {
+        desertRef.delete().then(() => {
+            resolve(200)
+        }).catch((error) => {
+            reject(error)
+        });
+    })
+}
+
 const resizeFile = (file) => {
     return new Promise((resolve, reject) => {
         Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
@@ -119,5 +132,5 @@ const resizeFile = (file) => {
 
 export {
     truncate, fileUpload, updateProfile, updateDocument, resizeFile,
-    createDocument, deleteDocument
+    createDocument, deleteDocument, deleteStorageItem
 }
