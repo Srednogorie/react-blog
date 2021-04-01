@@ -3,6 +3,7 @@ import useGlobalState from "../globalState";
 import {useFormik} from "formik";
 import firebase from "../firebase";
 import React, {useEffect} from 'react';
+import {toast} from "react-toastify";
 
 function SignPage() {
     const g =   useGlobalState();
@@ -27,6 +28,7 @@ function SignPage() {
                     g.setManage({type: "is_authenticated", payload: true});
                     g.setAccount({type: "email", payload: user.email});
                     history.push("/");
+                    toast.success("Welcome back!", {className: "is-success-alert"});
                 })
                 .catch((error) => {
                     // const errorCode = error.code;
