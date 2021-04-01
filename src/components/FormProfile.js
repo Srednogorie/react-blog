@@ -4,6 +4,8 @@ import {useFormik, Field, FormikProvider} from "formik";
 import FileUpload from "./FileUpload";
 import {fileUpload, resizeFile, updateProfile} from "../utils";
 import {useHistory} from "react-router-dom";
+import React from "react";
+import {toast} from "react-toastify";
 
 function FormProfile() {
     const g = useGlobalState();
@@ -20,37 +22,45 @@ function FormProfile() {
         },
         async onSubmit(values) {
             try {
-                const file = await resizeFile(values.avatarFile);
-                const fileUrl = await fileUpload("profile_images", file);
-                if (fileUrl) {
-                    const {url, fileRef} = fileUrl
-                    const profileUpdated = updateProfile(url, values.pseudonym);
-                    if (profileUpdated) {
-                        g.setAccount({type: "username", payload: values.pseudonym});
-                        g.setAccount({type: "profilePicture", payload: url});
-                        g.setAccount({type: "profileCompleted", payload: true});
-                    }
+                let file, fileUrl, profileUpdated;
+                if (!g.s.account.profileCompleted) {
+                    file = await resizeFile(values.avatarFile);
+                    fileUrl = await fileUpload("profile_images", file);
+                    const {url, fileRef} = fileUrl;
+                    profileUpdated = await updateProfile(url, values.pseudonym);
+                    g.setAccount({type: "username", payload: values.pseudonym});
+                    g.setAccount({type: "profilePicture", payload: url});
                 } else {
-                    // Handle something went wrong
+                    profileUpdated = updateProfile(values.pseudonym);
+                    g.setAccount({type: "username", payload: values.pseudonym});
                 }
+                if (!g.s.account.profileCompleted) {
+                    toast.success("Profile created!", {className: "is-success-alert"});
+                } else {
+                    toast.success("Profile updated!", {className: "is-success-alert"});
+                }
+                g.setAccount({type: "profileCompleted", payload: true});
             } catch(err) {
                 console.log(err);
             }
         },
-        // validate(values) {
-        //     const errors = {};
-        //     if (!values.email) {
-        //         errors.email = 'Required';
-        //     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        //         errors.email = 'Invalid email address';
-        //     }
-        //     // Validate passwords
-        //     if (!values.password) {
-        //         errors.password = 'Required';
-        //     }
-        //     return errors;
-        // },
+        validate(values) {
+            const errors = {};
+            if (!values.pseudonym) {
+                errors.pseudonym = 'Required';
+            }
+            // Validate passwords
+            if (!g.s.account.profileCompleted) {
+                if (!values.avatarFile) {
+                    errors.avatarFile = 'Required';
+                }
+            }
+            return errors;
+        },
     });
+    const handleFileClick = (e) => {
+        formik.setErrors({...formik.errors, "avatarFile": ""})
+    }
 
     return (
         <div className="modal-content form-profile">
@@ -66,8 +76,14 @@ function FormProfile() {
             <div className="field">
                 <label className="label">Pseudonym</label>
                 <div className="control">
-                    <input className="input" onChange={formik.handleChange} value={formik.values.pseudonym} type="text" name="pseudonym" placeholder="Your pseudonym" />
+                    <input
+                        className={`input ${formik.touched.pseudonym && formik.errors.pseudonym ? "is-danger" : ""}`}
+                        onChange={formik.handleChange} value={formik.values.pseudonym}
+                        onClick={e => {formik.setErrors({...formik.errors, "pseudonym": ""})}}
+                        type="text" name="pseudonym" placeholder="Your pseudonym"
+                    />
                 </div>
+                {formik.touched.pseudonym && formik.errors.pseudonym ? <p className="help is-danger">{formik.errors.pseudonym}</p> : null}
             </div>
 
             <div className="field">
@@ -78,7 +94,11 @@ function FormProfile() {
             </div>
 
             <FormikProvider value={formik}>
-                <Field name="avatarFile" buttonText="profile image" identifier="formProfile" component={FileUpload}/>
+                <Field
+                    name="avatarFile" buttonText="profile image" identifier="formProfile" component={FileUpload}
+                    isDanger={!!(formik.touched.avatarFile && formik.errors.avatarFile)} cb={handleFileClick}
+                />
+                {formik.touched.avatarFile && formik.errors.avatarFile ? <p className="help is-danger">{formik.errors.avatarFile}</p> : null}
             </FormikProvider>
 
             <div className="field is-grouped create-buttons">

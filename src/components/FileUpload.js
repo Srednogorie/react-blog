@@ -28,7 +28,7 @@ function FileUpload(props) {
                                 {props.identifier === "formProfile" && `${g.s.account.profileCompleted ? "Change" : "Choose"} ${props.buttonText}`}
                             </span>
                         </span>
-                        <span className={`file-name ${props.identifier === "formArticle" ? "label-modal" : ""}`}>
+                        <span className={`file-name ${props.isDanger && "file-name-danger"}`}>
                             {form.values.avatarFile ? form.values.avatarFile.name : "Image not attached"}
                         </span>
                     </Fragment>
@@ -36,11 +36,11 @@ function FileUpload(props) {
                 {props.identifier === "formArticle" && (
                     <Fragment>
                         <span className="file-cta">
-                            <span className="file-label">
-                                {`Choose ${props.buttonText}`}
-                            </span>
+                            <span className="file-label">{`Choose ${props.buttonText}`}</span>
                         </span>
-                        <span className={`file-name label-modal ${props.isDanger && "file-name-danger"}`}>{form.values.imageFile ? form.values.imageFile.name : "Image not attached"}</span>
+                        <span className={`file-name label-modal ${props.isDanger && "file-name-danger"}`}>
+                            {form.values.imageFile ? form.values.imageFile.name : "Image not attached"}
+                        </span>
                     </Fragment>
                 )}
             </label>

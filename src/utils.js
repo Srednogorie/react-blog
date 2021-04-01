@@ -53,17 +53,27 @@ const fileUpload = (path, file) => {
     })
 }
 
-const updateProfile = (photoUrl, pseudonym) => {
+const updateProfile = (photoUrl=null, pseudonym) => {
     return new Promise((resolve, reject) => {
         const user = firebase.auth().currentUser;
-        user.updateProfile({
-            displayName: pseudonym,
-            photoURL: photoUrl
-        }).then(function() {
-            resolve(true);
-        }).catch(function(error) {
-            // An error happened.
-        });
+        if (photoUrl) {
+            user.updateProfile({
+                displayName: pseudonym,
+                photoURL: photoUrl
+            }).then(function() {
+                resolve(true);
+            }).catch(function(error) {
+                // An error happened.
+            });
+        } else {
+            user.updateProfile({
+                displayName: pseudonym,
+            }).then(function() {
+                resolve(true);
+            }).catch(function(error) {
+                // An error happened.
+            });
+        }
     })
 }
 
