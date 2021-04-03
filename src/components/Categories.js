@@ -1,4 +1,5 @@
 import useGlobalState from "../globalState";
+import {useEffect} from "react";
 
 function Categories() {
     const g = useGlobalState();
@@ -6,7 +7,7 @@ function Categories() {
         g.setArticle({type: "active_category", payload: index});
         const currentArticles = g.s.article.nonAuthArticles;
         const currentArticle = currentArticles.filter(obj => obj.category === g.s.article.categories[index])[0];
-        g.setArticle({type: "non_auth_articles_current", payload: currentArticle});
+        g.setArticle({type: "current_article", payload: currentArticle});
     }
     return (
         <div className="landing-categories">

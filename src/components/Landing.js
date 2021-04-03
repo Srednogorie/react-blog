@@ -7,15 +7,16 @@ import {useEffect} from "react";
 
 function Landing() {
     const g = useGlobalState();
-    const showArticle = (event) => {
-        g.setModal({type: "modal_is_open", payload: true});
+    const showArticle = (e) => {
         g.setModal({type: "modal_content", payload: "article"});
+        g.setModal({type: "modal_is_open", payload: true});
     }
 
     useEffect(() => {
-        return (
-            g.setModal({type: "modal_is_open", payload: null})
-        )
+        return () => {
+            g.setModal({type: "modal_is_open", payload: null});
+            g.setArticle({type: "current_article", payload: null});
+        }
     }, [])
 
     return (
@@ -25,19 +26,16 @@ function Landing() {
                     <h2 className="landing-pub-header">Latest Publication</h2>
                 </div>
                 <div className="landing-pub-pub">
-                    {g.s.article.nonAuthArticlesCurrent &&
+                    {g.s.article.currentArticle &&
                         <Link to="#" onClick={showArticle} className="landing-publication">
                             <div className="landing-publication-content">
                                 <div className="landing-pub-icon">
-                                    <img src={g.s.article.nonAuthArticlesCurrent.image_url} className="landing-custom" alt=""/>
+                                    <img src={g.s.article.currentArticle.image_url} className="landing-custom" alt=""/>
                                 </div>
                                 <div className="landing-publication-text-area">
-                                    <div
-                                        className="landing-publication-title">{g.s.article.nonAuthArticlesCurrent.title}</div>
-                                    <div
-                                        className="landing-publication-author">{g.s.article.nonAuthArticlesCurrent.created.toDate().toLocaleDateString('en-UK')}</div>
-                                    <div
-                                        className="landing-publication-description">{truncate(g.s.article.nonAuthArticlesCurrent.content, 150)}</div>
+                                    <div className="landing-publication-title">{g.s.article.currentArticle.title}</div>
+                                    <div className="landing-publication-author">{g.s.article.currentArticle.created.toDate().toLocaleDateString('en-UK')}</div>
+                                    <div className="landing-publication-description">{truncate(g.s.article.currentArticle.content, 150)}</div>
                                 </div>
                             </div>
                         </Link>

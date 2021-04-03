@@ -4,8 +4,12 @@ import Categories from "./Categories";
 function AuthLanding() {
     const g =   useGlobalState();
 
-    const openArticle = (event) => {
-        console.log(event);
+    const openArticle = (event, key) => {
+        const currentArticles = g.s.article.authArticles;
+        const currentArticle = currentArticles.filter(obj => obj.key === key)[0];
+        g.setArticle({type: "current_article", payload: currentArticle});
+        g.setModal({type: "modal_content", payload: "article"});
+        g.setModal({type: "modal_is_open", payload: true});
     }
     const editArticle = (event, id) => {
         g.setModal({type: "modal_is_open", payload: true});
@@ -34,6 +38,10 @@ function AuthLanding() {
         const currentArticles = g.s.article.authArticles;
         const currentCategoryArticles = currentArticles.filter(obj => obj.category === currentCategory);
         g.setArticle({type: "auth_articles_current", payload: currentCategoryArticles});
+        return () => {
+            g.setModal({type: "modal_is_open", payload: null});
+            g.setArticle({type: "current_article", payload: null});
+        }
     }, [g.s.article.authArticles, g.s.article.activeCategory])
     return (
         <div className="container px-6 landing-main">
@@ -43,7 +51,7 @@ function AuthLanding() {
                 </header>
                 {g.s.article.authArticlesCurrent && g.s.article.authArticlesCurrent.map((article, index) => (
                     <div className="timeline-item is-primary" key={article.key}>
-                        <div onClick={openArticle} className="timeline-marker is-primary is-image is-64x64 article-image" style={{backgroundImage: `url(${article.image_url})`}}>
+                        <div onClick={(e) => openArticle(e, article.key)} className="timeline-marker is-primary is-image is-64x64 article-image" style={{backgroundImage: `url(${article.image_url})`}}>
                         </div>
                         <div className="timeline-content">
                             <p className="heading">{article.created.toDate().toLocaleDateString('en-UK')}</p>

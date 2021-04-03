@@ -52,7 +52,7 @@ function HomePage() {
         const currentCategory = g.s.article.categories[0];
         const currentArticles = g.s.article.nonAuthArticles;
         const currentArticle = currentArticles.filter(obj => obj.category === currentCategory)[0];
-        g.setArticle({type: "non_auth_articles_current", payload: currentArticle});
+        g.setArticle({type: "current_article", payload: currentArticle});
         return () => {
             g.setArticle({type: "active_category", payload: 0});
         }

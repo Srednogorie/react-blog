@@ -9,12 +9,23 @@ function Article() {
     return (
         <div className="modal-card">
             <section className="modal-card-body">
-                <div>
-                    <img src={g.s.article.nonAuthArticlesCurrent.image_url} className="landing-custom" alt=""/>
-                    <h1 className="modal-card-title card-content">{g.s.article.nonAuthArticlesCurrent.title}</h1>
+                <div className="read-article-img-container">
+                    <div
+                        className="read-article-img"
+                        style={{backgroundImage: `url(${g.s.article.currentArticle.image_url})`}}
+                    />
                 </div>
-                <p><span>By: {g.s.article.nonAuthArticlesCurrent.author}</span><span>Created:</span></p>
-                <p className="card-content">{g.s.article.nonAuthArticlesCurrent.content}</p>
+                <h1 className="modal-card-title card-content">{g.s.article.currentArticle.title}</h1>
+                <h3 className="card-content card-content-subtitle">{g.s.article.currentArticle.subtitle}</h3>
+                <p className="card-content card-content-info">
+                    <span>
+                        <strong>By: {g.s.article.currentArticle.author}</strong>
+                    </span>
+                    <span>
+                        <strong className="read-created">Created: {g.s.article.currentArticle.created.toDate().toLocaleDateString('en-UK')}</strong>
+                    </span>
+                </p>
+                <p className="card-content">{g.s.article.currentArticle.content}</p>
             </section>
         </div>
     )
