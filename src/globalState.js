@@ -9,7 +9,7 @@ const initialState = {
       categories: [],
       activeCategory: 0,
       nonAuthArticles: [],
-      nonAuthArticlesCurrent: null,
+      currentArticle: null,
       authArticles: [],
       authArticlesCurrent: null,
       editArticle: null,
@@ -66,8 +66,8 @@ const globalStateReducer = (state, action) => {
             return {...state, article: {...state.article, activeCategory: action.payload}};
         case "NON_AUTH_ARTICLES":
             return {...state, article: {...state.article, nonAuthArticles: action.payload}};
-        case "NON_AUTH_ARTICLES_CURRENT":
-            return {...state, article: {...state.article, nonAuthArticlesCurrent: action.payload}};
+        case "CURRENT_ARTICLE":
+            return {...state, article: {...state.article, currentArticle: action.payload}};
         case "AUTH_ARTICLES":
             return {...state, article: {...state.article, authArticles: action.payload}};
         case "AUTH_ARTICLES_CURRENT":
@@ -179,8 +179,8 @@ const useGlobalState = () => {
                 return dispatch({type: "ACTIVE_CATEGORY", payload: action.payload});
             case "non_auth_articles":
                 return dispatch({type: "NON_AUTH_ARTICLES", payload: action.payload});
-            case "non_auth_articles_current":
-                return dispatch({type: "NON_AUTH_ARTICLES_CURRENT", payload: action.payload});
+            case "current_article":
+                return dispatch({type: "CURRENT_ARTICLE", payload: action.payload});
             case "auth_articles":
                 return dispatch({type: "AUTH_ARTICLES", payload: action.payload});
             case "auth_articles_current":
