@@ -1,3 +1,10 @@
+## Disclaimer
+This website is build for educational purposes only and will never be supposed to serve real users.
+The design of this website was inspired by https://substack.com/.
+Some parts of this website match its parent quite closely. This is for
+educational purposes only. The articles in this website use copy/paste content & pictures
+from well known news providers like BBC etc. This is for educational purposes only and its never supposed to serve real users.
+
 ## Description
 Simple blog build on top of React & Firebase.
 
