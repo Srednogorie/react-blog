@@ -51,7 +51,11 @@ function AuthLanding() {
                 </header>
                 {g.s.article.authArticlesCurrent && g.s.article.authArticlesCurrent.map((article, index) => (
                     <div className="timeline-item is-primary" key={article.key}>
-                        <div onClick={(e) => openArticle(e, article.key)} className="timeline-marker is-primary is-image is-64x64 article-image" style={{backgroundImage: `url(${article.image_url})`}}>
+                        <div
+                            onClick={(e) => openArticle(e, article.key)}
+                            className="timeline-marker is-primary is-image is-64x64 article-image"
+                            style={{backgroundImage: `url(${article.image_url})`}}
+                        >
                         </div>
                         <div className="timeline-content">
                             <p className="heading">{article.created.toDate().toLocaleDateString('en-UK')}</p>
