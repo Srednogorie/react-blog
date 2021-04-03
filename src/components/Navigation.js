@@ -15,6 +15,12 @@ function Navigation() {
             g.setAccount({type: "username", payload: ''});
             g.setAccount({type: "profilePicture", payload: ''});
             g.setAccount({type: "profileCompleted", payload: false});
+            g.setArticle({type: "active_category", payload: 0});
+            // Set the current article
+            const currentCategory = g.s.article.categories[0];
+            const currentArticles = g.s.article.nonAuthArticles;
+            const currentArticle = currentArticles.filter(obj => obj.category === currentCategory)[0];
+            g.setArticle({type: "current_article", payload: currentArticle});
             history.push("/");
         }).catch((error) => {
             console.log(error)

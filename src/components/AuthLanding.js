@@ -40,7 +40,7 @@ function AuthLanding() {
         g.setArticle({type: "auth_articles_current", payload: currentCategoryArticles});
         return () => {
             g.setModal({type: "modal_is_open", payload: null});
-            g.setArticle({type: "current_article", payload: null});
+            // g.setArticle({type: "current_article", payload: null});
         }
     }, [g.s.article.authArticles, g.s.article.activeCategory])
     return (

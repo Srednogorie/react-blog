@@ -320,3 +320,19 @@ select:invalid
   padding-bottom: 0
 .read-created
   padding-left: 22px
+
+
+// Smaller screens improvements
+@media screen and (max-width: 1023px)
+  .container.px-6
+    padding-left: 1rem !important
+    padding-right: 1rem !important
+@media screen and (max-width: 768px)
+  .landing-main
+    display: flex
+    flex-direction: column-reverse
+    margin-top: 24px
+  .landing-categories
+    margin-bottom: 18px
+  .landing-cat-cat
+    padding-top: 1rem
