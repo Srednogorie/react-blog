@@ -87,6 +87,11 @@ body
   top: 32px
   width: 1px
   background-color: #fd6851
+  left: 56.5px
+.timeline .timeline-item::before
+  left: unset !important
+.timeline.is-centered .timeline-item:nth-of-type(2n)::before
+  right: -1px
 
 // Style manage buttons & article
 .manage-buttons
