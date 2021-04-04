@@ -16,7 +16,10 @@ function Navigation() {
                     <Link to="/" className="logo-styles">
                         <img src={logo} alt='logo' className="logo-styles mr-3"/>
                     </Link>
-                    <Link to="#" className={`navbar-burger ${g.s.manage.toggleMenu ? 'is-active' : ''}`} role="button" aria-label="menu" aria-expanded="false" onClick={handleToggle}>
+                    <Link
+                        onClick={handleToggle} to="#" role="button" aria-label="menu" aria-expanded="false"
+                        className={`navbar-burger ignore-react-onclickoutside ${g.s.manage.toggleMenu ? 'is-active' : ''}`}
+                    >
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
