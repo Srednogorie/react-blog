@@ -24,8 +24,3 @@ yarn-error.log*
 
 # PyCharm
 /.idea
-
-# Project specific
-.firebase
-.firebaserc
-src/firebase.js
