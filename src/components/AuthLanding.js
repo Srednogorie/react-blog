@@ -42,6 +42,7 @@ function AuthLanding() {
             g.setModal({type: "modal_is_open", payload: null});
             // g.setArticle({type: "current_article", payload: null});
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [g.s.article.authArticles, g.s.article.activeCategory])
     return (
         <div className="container px-6 landing-main">

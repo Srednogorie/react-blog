@@ -3,13 +3,11 @@ import useGlobalState from "../globalState";
 import {useFormik, Field, FormikProvider} from "formik";
 import FileUpload from "./FileUpload";
 import {fileUpload, resizeFile, updateProfile} from "../utils";
-import {useHistory} from "react-router-dom";
 import React from "react";
 import {toast} from "react-toastify";
 
 function FormProfile() {
     const g = useGlobalState();
-    const history = useHistory();
 
     FormProfile.handleClickOutside = () => g.setModal({type: "modal_is_open", payload: false});
 
@@ -22,16 +20,16 @@ function FormProfile() {
         },
         async onSubmit(values) {
             try {
-                let file, fileUrl, profileUpdated;
+                let file, fileUrl;
                 if (!g.s.account.profileCompleted) {
                     file = await resizeFile(values.avatarFile);
                     fileUrl = await fileUpload("profile_images", file);
                     const {url, fileRef} = fileUrl;
-                    profileUpdated = await updateProfile(url, values.pseudonym);
+                    await updateProfile(url, values.pseudonym);
                     g.setAccount({type: "username", payload: values.pseudonym});
                     g.setAccount({type: "profilePicture", payload: url});
                 } else {
-                    profileUpdated = updateProfile(values.pseudonym);
+                    await updateProfile(values.pseudonym);
                     g.setAccount({type: "username", payload: values.pseudonym});
                 }
                 if (!g.s.account.profileCompleted) {

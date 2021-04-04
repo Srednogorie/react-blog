@@ -24,6 +24,9 @@ const fileUpload = (path, file) => {
                     case firebase.storage.TaskState.RUNNING: // or 'running'
                         console.log('Upload is running');
                         break;
+                    default:
+                        console.log("Default");
+                        break;
                 }
             },
             (error) => {
@@ -36,11 +39,12 @@ const fileUpload = (path, file) => {
                     case 'storage/canceled':
                         // User canceled the upload
                         break;
-
                     // ...
-
                     case 'storage/unknown':
                         // Unknown error occurred, inspect error.serverResponse
+                        break;
+                    default:
+                        console.log("Default");
                         break;
                 }
             },

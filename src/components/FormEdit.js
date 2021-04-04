@@ -1,7 +1,6 @@
 import onClickOutside from "react-onclickoutside";
 import useGlobalState from "../globalState";
-import {useFormik, Field, FormikProvider} from "formik";
-import FileUpload from "./FileUpload";
+import {useFormik} from "formik";
 import {updateDocument} from "../utils";
 import React, {useEffect} from "react";
 import {toast} from "react-toastify";
@@ -63,6 +62,7 @@ function FormEdit() {
         return () => {
             g.setArticle({type: "edit_article", payload: null})
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <div>

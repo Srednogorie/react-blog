@@ -82,6 +82,7 @@ function FormCreate() {
         const currentArticles = g.s.article.authArticles;
         const currentCategoryArticles = currentArticles.filter(obj => obj.category === currentCategory);
         g.setArticle({type: "auth_articles_current", payload: currentCategoryArticles});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [g.s.article.authArticles])
 
     return (

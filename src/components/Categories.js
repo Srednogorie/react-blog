@@ -1,5 +1,4 @@
 import useGlobalState from "../globalState";
-import {useEffect} from "react";
 
 function Categories() {
     const g = useGlobalState();

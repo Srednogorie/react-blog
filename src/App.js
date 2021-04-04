@@ -1,6 +1,6 @@
 import './App.sass';
 import React, {Fragment} from "react";
-import { Route, Switch } from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -53,7 +53,7 @@ function App() {
             .catch((error) => {
                 console.log("Error getting documents: ", error);
             });
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <div className="page-wrapper">

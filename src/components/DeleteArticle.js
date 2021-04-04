@@ -26,6 +26,7 @@ function DeleteArticle(props) {
         return () => {
             g.setArticle({type: "delete_article", payload: null})
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

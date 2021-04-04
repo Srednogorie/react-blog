@@ -16,11 +16,11 @@ function Navigation() {
                     <Link to="/" className="logo-styles">
                         <img src={logo} alt='logo' className="logo-styles mr-3"/>
                     </Link>
-                    <a className={`navbar-burger ${g.s.manage.toggleMenu ? 'is-active' : ''}`} role="button" aria-label="menu" aria-expanded="false" onClick={handleToggle}>
+                    <Link to="#" className={`navbar-burger ${g.s.manage.toggleMenu ? 'is-active' : ''}`} role="button" aria-label="menu" aria-expanded="false" onClick={handleToggle}>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
-                    </a>
+                    </Link>
                 </div>
                 <NavbarMenu/>
             </div>

@@ -46,6 +46,7 @@ function HomePage() {
                     });
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     React.useEffect(() => {
         // Set the current article
@@ -56,6 +57,7 @@ function HomePage() {
         return () => {
             g.setArticle({type: "active_category", payload: 0});
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [g.s.article.nonAuthArticles])
     return (
         <div>
