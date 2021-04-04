@@ -52,14 +52,22 @@ Global state implemented on top of the ContextAPI
 
 
 
-## Available Scripts
+## To run the project locally
 
-In the project directory, you can run:
+1. Clone the repo - `git clone https://github.com/Srednogorie/react-blog.git`
 
-### `npm start`
+2. Get into the project dir - `cd react-blog`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. Install the dependencies - `npm install`, this might take a while depending on your machine
+
+4. Start the project - `npm start`
+
+5. If the project fail to load because of node-sass, run - `npm rebuild node-sass`.
+Once done run `npm start` again.
+
+6. Visit the dev server at http://localhost:3000/
+
+Enjoy!
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
