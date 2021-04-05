@@ -50,13 +50,18 @@ function Register() {
             if (!values.confirmPassword) {
                 errors.confirmPassword = 'Required';
             }
+            if (values.password.length < 6 || values.confirmPassword.length < 6) {
+                errors.password = "Password too short, min 6 chars"
+                errors.confirmPassword = 'Password too short, min 6 chars';
+                values.password = "";
+                values.confirmPassword = "";
+            }
             if ((values.password && values.confirmPassword) && (values.password !== values.confirmPassword)) {
                 errors.password = "Passwords should match"
                 errors.confirmPassword = 'Passwords should match';
                 values.password = "";
                 values.confirmPassword = "";
             }
-
             return errors;
         },
     });
