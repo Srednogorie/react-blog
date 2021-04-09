@@ -35,12 +35,6 @@ const initialState = {
         errors: {},
         loading: false
     },
-    // Home page
-    home: {
-        render: false,
-        uiLoading: true,
-        imageLoading: false
-    },
     // Account
     account: {
         firstName: '',
@@ -112,15 +106,6 @@ const globalStateReducer = (state, action) => {
             return {...state, signup: {...state.signup, errors: action.payload}};
         case "LOADING":
             return {...state, signup: {...state.signup, loading: action.payload}};
-        // Home
-        case "RENDER":
-            return {...state, home: {...state.home, render: action.payload}};
-        case "PROFILE_PICTURE":
-            return {...state, home: {...state.home, profilePicture: action.payload}};
-        case "UI_LOADING":
-            return {...state, home: {...state.home, uiLoading: action.payload}};
-        case "IMAGE_LOADING":
-            return {...state, home: {...state.home, imageLoading: action.payload}};
         // Account
         case "ACCOUNT_FIRST_NAME":
             return {...state, account: {...state.account, firstName: action.payload}};
@@ -262,21 +247,6 @@ const useGlobalState = () => {
         }
     };
 
-    const setHome = (action) => {
-        switch (action.type) {
-            case "render":
-                return dispatch({type: "RENDER", payload: action.payload});
-            case "profilePicture":
-                return dispatch({type: "PROFILE_PICTURE", payload: action.payload});
-            case "uiLoading":
-                return dispatch({type: "UI_LOADING", payload: action.payload});
-            case "imageLoading":
-                return dispatch({type: "IMAGE_LOADING", payload: action.payload});
-            default:
-                return "Some mismatch is getting over - Home!";
-        }
-    };
-
     const setAccount = (action) => {
         switch (action.type) {
             case "firstName":
@@ -310,7 +280,6 @@ const useGlobalState = () => {
         setManage,
         setLogin,
         setSignup,
-        setHome,
         setAccount,
         s: {...state}
     };
