@@ -1,4 +1,5 @@
-import React, {createContext, useReducer, useContext} from "react";
+import React, {createContext, useReducer, useContext, useEffect} from "react";
+import useContextDevTools from 'context-api-dev-tools-extension';
 
 /* Define a context and a reducer for updating the context */
 const GlobalStateContext = createContext();
@@ -141,8 +142,16 @@ export const GlobalStateProvider = ({ children }) => {
         initialState
     );
 
+    // Initialize DevTools Extension
+    const devTools = useContextDevTools(dispatch);
+
+    // Update devtools to send updated state
+    useEffect(() => {
+        devTools.sendUpdatedState(state);
+    }, [state, dispatch]);
+
     return (
-        <GlobalStateContext.Provider value={[state, dispatch]}>
+        <GlobalStateContext.Provider value={[state, devTools.sendDispatch]}>
             {children}
         </GlobalStateContext.Provider>
     );
